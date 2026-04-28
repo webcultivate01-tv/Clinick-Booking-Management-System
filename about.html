@@ -25,34 +25,12 @@
     }
   </script>
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { overflow-x: hidden; }
     body { font-family: 'Inter', sans-serif; background-color: #faf7f2; color: #2c2420; overflow-x: hidden; }
     h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
-    .navbar-scrolled { box-shadow: 0 4px 30px rgba(80,40,20,0.1); }
-    .nav-link { position: relative; padding: 6px 0 !important; margin: 0 16px; background: transparent !important; border-radius: 0 !important; }
-    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #b8935a; transition: width 0.3s; border-radius: 2px; }
-    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-    .nav-link:hover { color: #5c3d2e !important; background: transparent !important; }
-    /* Scroll Reveal */
-    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.revealed { opacity: 1; transform: translateY(0); }
-    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal-left.revealed { opacity: 1; transform: translateX(0); }
-    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal-right.revealed { opacity: 1; transform: translateX(0); }
-    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(80,40,20,0.14); }
-    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8935a; background: #e8d5b7; padding: 6px 18px; border-radius: 100px; margin-bottom: 14px; }
-    .btn-primary { display: inline-block; background: #5c3d2e; color: #faf7f2; padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; transition: all 0.25s; }
-    .btn-primary:hover { background: #b8935a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(92,61,46,0.3); }
-    .btn-outline { display: inline-block; border: 2px solid #5c3d2e; color: #5c3d2e; padding: 12px 30px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; transition: all 0.25s; }
-    .btn-outline:hover { background: #5c3d2e; color: #faf7f2; transform: translateY(-2px); }
-    .hamburger-bar { display: block; width: 24px; height: 2px; background: #5c3d2e; border-radius: 2px; transition: all 0.3s; }
-    .hamburger.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.active .hamburger-bar:nth-child(2) { opacity: 0; }
-    .hamburger.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-    /* ---- TOPBAR ---- */
+
+    /* TOPBAR */
     .topbar { background: #5c3d2e; color: #e8d5b7; font-size: 0.78rem; padding: 8px 0; }
     .topbar a { color: #e8d5b7; text-decoration: none; transition: color 0.2s; }
     .topbar a:hover { color: #fff; }
@@ -60,23 +38,127 @@
     .topbar-left { display: flex; align-items: center; gap: 20px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px){ .topbar-inner { justify-content: center; } .topbar-right { display: none; } }
-    @media (max-width: 768px) { .mobile-menu { display: none; } .mobile-menu.open { display: flex; } }
-    /* ---- WHY / TEAM CARDS ---- */
-    .team-card { background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid #f0e6d8; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .team-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(80,40,20,0.14); }
-    .team-photo { width: 100%; height: 220px; object-fit: cover; object-position: top; }
-    .team-specialty { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #b8935a; background: #fdf5ea; padding: 4px 12px; border-radius: 100px; border: 1px solid #e8d5b7; margin-bottom: 10px; }
-    .cta-section { background: linear-gradient(135deg, #fdf6f0 0%, #f5ede6 50%, #ede0d6 100%); position: relative; overflow: hidden; }
-    .cta-section::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(184,147,90,0.15), transparent); border-radius: 50%; }
-    .cta-section::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,160,154,0.15), transparent); border-radius: 50%; }
+
+    /* NAVBAR */
+    .navbar-scrolled { box-shadow: 0 4px 30px rgba(80,40,20,0.1); }
+    .nav-link { position: relative; padding: 6px 0 !important; margin: 0 16px; background: transparent !important; border-radius: 0 !important; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #b8935a; transition: width 0.3s; border-radius: 2px; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-link:hover { color: #5c3d2e !important; background: transparent !important; }
+    .hamburger-bar { display: block; width: 24px; height: 2px; background: #5c3d2e; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .hamburger-bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* MOBILE DRAWER — slide in from right */
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(44,36,32,0.45);
+      z-index: 998; backdrop-filter: blur(2px);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .drawer-overlay.open { opacity: 1; visibility: visible; }
+
+    .mobile-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 280px; max-width: 85vw;
+      background: #fff;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 40px rgba(44,36,32,0.18);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid #f0e6d8;
+    }
+    .drawer-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #faf7f2; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #5c3d2e; font-size: 1rem; transition: background 0.2s;
+    }
+    .drawer-close:hover { background: #f5ede6; }
+    .drawer-nav { padding: 12px 16px; flex: 1; }
+    .drawer-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: 12px;
+      font-size: 0.95rem; font-weight: 500; color: #8a7a70;
+      text-decoration: none; transition: all 0.2s; margin-bottom: 4px;
+    }
+    .drawer-nav a:hover, .drawer-nav a.active {
+      background: #f5ede6; color: #5c3d2e;
+    }
+    .drawer-nav a.active { font-weight: 600; }
+    .drawer-nav a i { width: 18px; text-align: center; color: #b8935a; }
+    .drawer-footer { padding: 16px; border-top: 1px solid #f0e6d8; }
+    .drawer-footer .btn-primary { width: 100%; justify-content: center; }
+
+    /* SCROLL ANIMATIONS */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-right.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.revealed { opacity: 1; transform: scale(1); }
+
+    /* UTILITIES */
+    .section-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 0.73rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8935a; background: #e8d5b7; padding: 6px 18px; border-radius: 100px; margin-bottom: 14px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #5c3d2e; color: #faf7f2; padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; transition: all 0.28s; text-decoration: none; }
+    .btn-primary:hover { background: #b8935a; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(92,61,46,0.35); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; border: 2px solid #5c3d2e; color: #5c3d2e; padding: 12px 30px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; transition: all 0.28s; text-decoration: none; }
+    .btn-outline:hover { background: #5c3d2e; color: #faf7f2; transform: translateY(-2px); }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(80,40,20,0.14); }
     .story-img { overflow: hidden; border-radius: 28px; }
-    .story-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; display: block; }
     .story-img:hover img { transform: scale(1.04); }
-    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform 0.2s; }
-    .whatsapp-btn:hover { transform: scale(1.1); }
-    .team-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #e8d5b7; margin: 0 auto 16px; display: block; }
+    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.45); transition: transform 0.2s; }
+    .whatsapp-btn:hover { transform: scale(1.12); }
     .award-card { border-left: 3px solid #b8935a; }
-    .pillar-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: #e8d5b7; line-height: 1; }
+    .pillar-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; color: #e8d5b7; line-height: 1; }
+    .team-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid #e8d5b7; margin: 0 auto 16px; display: block; transition: border-color 0.3s; }
+    .team-card:hover .team-img { border-color: #b8935a; }
+    .cta-section { background: linear-gradient(135deg, #fdf6f0 0%, #f5ede6 50%, #ede0d6 100%); position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; top: -80px; left: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(184,147,90,0.18), transparent); border-radius: 50%; }
+    .cta-section::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(212,160,154,0.18), transparent); border-radius: 50%; }
+
+    /* HERO PARALLAX BG */
+    .hero-blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+
+    /* STAT COUNTER */
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: #b8935a; line-height: 1; }
+
+    /* TIMELINE DOTS */
+    .timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: #b8935a; border: 3px solid #e8d5b7; flex-shrink: 0; margin-top: 4px; }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 2.4rem !important; }
+      .section-h2 { font-size: 1.8rem !important; }
+      .stat-num { font-size: 1.9rem; }
+      .pillar-num { font-size: 2rem; }
+    }
+
+    /* Prevent horizontal overflow on all sections */
+    section { overflow-x: hidden; }
+    .hero-blob { overflow: hidden; }
+
+    /* Mobile responsive general */
+    @media (max-width: 768px) {
+      .grid.lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
+      .story-img { height: 280px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .btn-primary, .btn-outline { padding: 12px 22px; font-size: 0.85rem; }
+    }
   </style>
 </head>
 <body>
@@ -85,66 +167,121 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="topbar-left">
-        <a href="tel:+919876543210"><i class="fa-solid fa-phone mr-1"></i> +91 98765 43210</a>
-        <a href="mailto:hello@lumiereskin.com" class="hidden sm:inline"><i class="fa-solid fa-envelope mr-1"></i> hello@lumiereskin.com</a>
+        <a href="tel:+919876543210"><i class="fa-solid fa-phone mr-1.5"></i> +91 98765 43210</a>
+        <a href="mailto:hello@lumiereskin.com" class="hidden sm:inline"><i class="fa-solid fa-envelope mr-1.5"></i> hello@lumiereskin.com</a>
       </div>
       <div class="topbar-right">
-        <span><i class="fa-regular fa-clock mr-1"></i> Mon–Sat: 9:00 AM – 7:00 PM</span>
-        <span><i class="fa-solid fa-sun mr-1"></i> Sun: 10:00 AM – 2:00 PM</span>
+        <span><i class="fa-regular fa-clock mr-1.5"></i> Mon–Sat: 9:00 AM – 7:00 PM</span>
+        <span><i class="fa-solid fa-sun mr-1.5"></i> Sun: 10:00 AM – 2:00 PM</span>
       </div>
     </div>
   </div>
 
-  <!-- NAV -->
+  <!-- NAVBAR -->
   <nav id="navbar" class="sticky top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-amber-100 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center shadow-md">
           <i class="fa-solid fa-spa text-white text-sm"></i>
         </div>
-        <span class="font-heading text-2xl font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span style="font-family:'Playfair Display',serif" class="text-2xl font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
       </a>
       <ul class="hidden md:flex items-center">
         <li><a href="index.html" class="nav-link text-sm font-medium text-muted transition-colors">Home</a></li>
-        <li><a href="about.html" class="nav-link active text-sm font-medium text-brown transition-colors">About</a></li>
-        <li><a href="services.html" class="nav-link text-sm font-medium text-muted transition-colors">Services</a></li>
-        <li><a href="gallery.html" class="nav-link text-sm font-medium text-muted transition-colors">Gallery</a></li>
-        <li><a href="contact.html" class="nav-link text-sm font-medium text-muted transition-colors">Contact</a></li>
-        <li class="ml-6"><a href="contact.html" class="btn-primary text-sm">Book Now</a></li>
+        <li><a href="about.html" class="nav-link active text-sm font-medium text-brown">About</a></li>
+        <li><a href="services.html" class="nav-link text-sm font-medium text-muted">Services</a></li>
+        <li><a href="gallery.html" class="nav-link text-sm font-medium text-muted">Gallery</a></li>
+        <li><a href="contact.html" class="nav-link text-sm font-medium text-muted">Contact</a></li>
+        <li class="ml-6"><a href="contact.html" class="btn-primary text-sm py-3 px-6">Book Now</a></li>
       </ul>
       <button id="hamburger" class="md:hidden hamburger flex flex-col gap-1.5 p-2">
         <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
       </button>
     </div>
-    <div id="mobileMenu" class="mobile-menu md:hidden flex-col bg-white border-t border-amber-100 px-6 py-4 gap-1 shadow-lg">
-      <a href="index.html" class="block px-4 py-3 text-muted rounded-xl hover:bg-blush transition-colors">Home</a>
-      <a href="about.html" class="block px-4 py-3 text-brown font-medium rounded-xl bg-blush">About</a>
-      <a href="services.html" class="block px-4 py-3 text-muted rounded-xl hover:bg-blush transition-colors">Services</a>
-      <a href="gallery.html" class="block px-4 py-3 text-muted rounded-xl hover:bg-blush transition-colors">Gallery</a>
-      <a href="contact.html" class="block px-4 py-3 text-muted rounded-xl hover:bg-blush transition-colors">Contact</a>
-      <a href="contact.html" class="btn-primary text-center mt-2">Book Consultation</a>
-    </div>
   </nav>
 
-  <!-- PAGE HERO -->
-  <section class="relative pt-24 pb-16 overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 100%);">
-    <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-      <div class="fade-in">
-        <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> Our Story</span>
-        <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal leading-tight mt-3 mb-6">
+  <!-- MOBILE DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
+          <i class="fa-solid fa-spa text-white text-xs"></i>
+        </div>
+        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+      </div>
+      <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="about.html" class="active"><i class="fa-solid fa-circle-info"></i> About</a>
+      <a href="services.html"><i class="fa-solid fa-star"></i> Services</a>
+      <a href="gallery.html"><i class="fa-solid fa-images"></i> Gallery</a>
+      <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+    </nav>
+    <div class="drawer-footer">
+      <a href="contact.html" class="btn-primary"><i class="fa-regular fa-calendar-check"></i> Book Consultation</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="relative pt-24 pb-20 overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 60%, #ede0d4 100%);">
+    <div class="hero-blob" style="width:420px;height:420px;background:rgba(184,147,90,0.12);top:-120px;right:-80px;"></div>
+    <div class="hero-blob" style="width:300px;height:300px;background:rgba(212,160,154,0.1);bottom:-60px;left:-60px;"></div>
+    <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div class="reveal">
+        <span class="section-tag"><i class="fa-solid fa-circle-dot"></i> Our Story</span>
+        <h1 class="hero-title font-heading font-bold text-charcoal leading-tight mt-3 mb-6" style="font-size:3.5rem;">
           About <em class="text-gold italic">Lumière</em><br/>Skin Clinic
         </h1>
         <p class="text-muted text-lg leading-relaxed mb-4">A sanctuary of skin science, dedicated to revealing your most radiant, healthy self. We believe every person deserves access to world-class dermatology — without compromise.</p>
-        <p class="text-muted leading-relaxed mb-8">Founded in 2012 by Dr. Meera Joshi, Lumière Skin Clinic has grown from a small dermatology practice into one of Maharashtra's most trusted skin care destinations — serving over 8,000 satisfied clients.</p>
+        <p class="text-muted leading-relaxed mb-8">Founded in 2012 by Dr. Meera Joshi, Lumière has grown into one of Maharashtra's most trusted skin care destinations — serving over 8,000 satisfied clients.</p>
         <div class="flex gap-4 flex-wrap">
-          <a href="contact.html" class="btn-primary"><i class="fa-regular fa-calendar-check mr-2"></i>Book Consultation</a>
+          <a href="contact.html" class="btn-primary"><i class="fa-regular fa-calendar-check"></i>Book Consultation</a>
           <a href="services.html" class="btn-outline">Our Services</a>
         </div>
       </div>
-      <div class="fade-in relative" style="transition-delay:0.2s">
-        <div class="story-img h-[480px] shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80" alt="Our skin clinic interior"/>
+      <div class="reveal-right" style="transition-delay:0.15s">
+        <div class="story-img shadow-2xl" style="height:480px;">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=85" alt="Lumière Skin Clinic interior" loading="eager"/>
         </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-5 -left-5 bg-white rounded-2xl px-5 py-4 shadow-xl border border-amber-100 hidden lg:flex items-center gap-3" style="z-index:10;">
+          <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+            <i class="fa-solid fa-star text-gold"></i>
+          </div>
+          <div>
+            <div class="text-xs text-muted font-medium">Client Rating</div>
+            <div style="font-family:'Playfair Display',serif" class="text-brown font-semibold text-lg">4.9 / 5.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <section class="py-10 bg-brown">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="reveal">
+          <div class="stat-num mb-1" data-target="12">0</div>
+          <div class="text-white/60 text-xs font-medium uppercase tracking-widest">Years in Practice</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s">
+          <div class="stat-num mb-1" data-target="8000">0</div>
+          <div class="text-white/60 text-xs font-medium uppercase tracking-widest">Clients Served</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.2s">
+          <div class="stat-num mb-1" data-target="25">0</div>
+          <div class="text-white/60 text-xs font-medium uppercase tracking-widest">Treatments Offered</div>
+        </div>
+        <div class="reveal" style="transition-delay:0.3s">
+          <div class="stat-num mb-1" data-target="98">0</div>
+          <div class="text-white/60 text-xs font-medium uppercase tracking-widest">Satisfaction Rate</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -152,32 +289,37 @@
   <section class="py-24 bg-white">
     <div class="max-w-6xl mx-auto px-6">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
-        <div class="fade-in">
-          <div class="relative story-img h-[500px] shadow-xl">
-            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&q=80" alt="Clinic story"/>
+        <div class="reveal-left">
+          <div class="relative story-img shadow-xl" style="height:520px;">
+            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=900&q=85" alt="Clinic story — Dr. Meera's journey" loading="lazy"/>
+          </div>
+          <!-- Floating year badge -->
+          <div class="absolute top-6 -right-4 bg-brown text-white rounded-2xl px-5 py-4 shadow-xl hidden lg:block" style="z-index:10;">
+            <div style="font-family:'Playfair Display',serif" class="text-4xl font-bold text-gold">2012</div>
+            <div class="text-xs text-white/70 mt-1">Year Founded</div>
           </div>
         </div>
-        <div class="fade-in" style="transition-delay:0.15s">
+        <div class="reveal-right" style="transition-delay:0.15s">
           <span class="section-tag">Our Journey</span>
-          <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-6 leading-tight">
+          <h2 class="section-h2 font-heading font-bold text-charcoal mt-3 mb-6 leading-tight" style="font-size:2.5rem;">
             12 Years of <em class="text-gold italic">Transforming</em> Skin & Lives
           </h2>
           <p class="text-muted leading-relaxed mb-5">Founded in 2012 by Dr. Meera Joshi, Lumière Skin Clinic was born from a simple belief — that everyone deserves healthy, glowing skin regardless of their skin type, tone, or concern. What began as a small dermatology practice has evolved into a full-service skin center equipped with state-of-the-art technology.</p>
-          <p class="text-muted leading-relaxed mb-8">We blend the precision of modern dermatology with a deep respect for each patient's individuality. No two skin journeys are the same, and neither are our treatment plans. We listen first, treat second — because understanding your skin is the foundation of every beautiful result.</p>
+          <p class="text-muted leading-relaxed mb-8">We blend the precision of modern dermatology with a deep respect for each patient's individuality. No two skin journeys are the same, and neither are our treatment plans. We listen first, treat second.</p>
           <!-- Pillars -->
           <div class="flex flex-col gap-6">
             <div class="flex gap-5 items-start">
               <div class="pillar-num flex-shrink-0">01</div>
               <div>
                 <strong class="block text-brown font-semibold mb-1">Patient First, Always</strong>
-                <p class="text-sm text-muted">Your comfort, safety, and results are our only priority. We never rush — we listen, understand, and then act.</p>
+                <p class="text-sm text-muted">Your comfort, safety, and results are our only priority. We never rush — we listen, understand, and then act with precision.</p>
               </div>
             </div>
             <div class="flex gap-5 items-start">
               <div class="pillar-num flex-shrink-0">02</div>
               <div>
                 <strong class="block text-brown font-semibold mb-1">Evidence-Based Medicine</strong>
-                <p class="text-sm text-muted">Every treatment is clinically proven, peer-reviewed, and science-backed. We do not experiment — we transform.</p>
+                <p class="text-sm text-muted">Every treatment is clinically proven, peer-reviewed, and science-backed. We do not experiment — we transform with confidence.</p>
               </div>
             </div>
             <div class="flex gap-5 items-start">
@@ -193,134 +335,119 @@
     </div>
   </section>
 
-  <!-- STATS BAND -->
-  <section class="py-16 bg-brown">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div class="fade-in">
-          <div class="font-heading text-5xl font-bold text-gold mb-2">12+</div>
-          <div class="text-white/70 text-sm font-medium uppercase tracking-widest">Years in Practice</div>
-        </div>
-        <div class="fade-in" style="transition-delay:0.1s">
-          <div class="font-heading text-5xl font-bold text-gold mb-2">8,000+</div>
-          <div class="text-white/70 text-sm font-medium uppercase tracking-widest">Clients Served</div>
-        </div>
-        <div class="fade-in" style="transition-delay:0.2s">
-          <div class="font-heading text-5xl font-bold text-gold mb-2">25+</div>
-          <div class="text-white/70 text-sm font-medium uppercase tracking-widest">Treatments Offered</div>
-        </div>
-        <div class="fade-in" style="transition-delay:0.3s">
-          <div class="font-heading text-5xl font-bold text-gold mb-2">98%</div>
-          <div class="text-white/70 text-sm font-medium uppercase tracking-widest">Satisfaction Rate</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- TEAM SECTION -->
   <section class="py-24 bg-cream">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
+      <div class="text-center mb-16 reveal">
         <span class="section-tag">Meet the Experts</span>
-        <h2 class="font-heading text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-4">Our <em class="text-gold italic">Specialist</em> Team</h2>
+        <h2 class="font-heading font-bold text-charcoal mt-3 mb-4 section-h2" style="font-size:2.6rem;">Our <em class="text-gold italic">Specialist</em> Team</h2>
         <p class="text-muted max-w-xl mx-auto">Board-certified dermatologists and trained aestheticians committed to delivering world-class skin care results.</p>
       </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="fade-in bg-white rounded-2xl p-8 text-center border border-amber-100 card-hover">
-          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80" alt="Dr. Meera Joshi" class="team-img"/>
-          <h3 class="font-heading text-xl font-semibold text-brown mb-1">Dr. Meera Joshi</h3>
-          <span class="text-xs font-semibold text-gold uppercase tracking-widest block mb-3">Founder & Chief Dermatologist</span>
-          <p class="text-sm text-muted leading-relaxed mb-4">MBBS, MD Dermatology — 15+ years of expertise in advanced cosmetic and medical dermatology treatments. Trained at AIIMS Delhi.</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Laser Specialist</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Anti-Aging</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Aesthetic Medicine</span>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Dr. Meera -->
+        <div class="reveal team-card card-hover" style="background:#fff;border-radius:20px;border:1px solid #f0e6d8;overflow:hidden;">
+          <div style="height:220px;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=85" alt="Dr. Meera Joshi" style="width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.5s;" class="team-photo-img" loading="lazy"/>
+          </div>
+          <div class="p-6 text-center">
+            <span style="display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b8935a;background:#fdf5ea;padding:4px 12px;border-radius:100px;border:1px solid #e8d5b7;margin-bottom:10px;">Founder & Chief Dermatologist</span>
+            <h3 class="font-heading text-lg font-semibold text-brown mb-2">Dr. Meera Joshi</h3>
+            <p class="text-sm text-muted leading-relaxed mb-3">MBBS, MD Dermatology — 15+ years of expertise in advanced cosmetic & medical dermatology. Trained at AIIMS Delhi.</p>
+            <div class="flex flex-wrap gap-1.5 justify-center">
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Laser</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Anti-Aging</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Aesthetics</span>
+            </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-8 text-center border border-amber-100 card-hover" style="transition-delay:0.1s">
-          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&q=80" alt="Dr. Arjun Kulkarni" class="team-img"/>
-          <h3 class="font-heading text-xl font-semibold text-brown mb-1">Dr. Arjun Kulkarni</h3>
-          <span class="text-xs font-semibold text-gold uppercase tracking-widest block mb-3">Laser & Aesthetic Specialist</span>
-          <p class="text-sm text-muted leading-relaxed mb-4">Pioneer in laser skin resurfacing and non-invasive cosmetic procedures with over 10 years of clinical experience in advanced skin technology.</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Q-Switch Laser</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Botox & Fillers</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">PRP Therapy</span>
+        <!-- Dr. Arjun -->
+        <div class="reveal team-card card-hover" style="background:#fff;border-radius:20px;border:1px solid #f0e6d8;overflow:hidden;transition-delay:0.1s">
+          <div style="height:220px;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=85" alt="Dr. Arjun Kulkarni" style="width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.5s;" class="team-photo-img" loading="lazy"/>
+          </div>
+          <div class="p-6 text-center">
+            <span style="display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b8935a;background:#fdf5ea;padding:4px 12px;border-radius:100px;border:1px solid #e8d5b7;margin-bottom:10px;">Laser & Aesthetic Specialist</span>
+            <h3 class="font-heading text-lg font-semibold text-brown mb-2">Dr. Arjun Kulkarni</h3>
+            <p class="text-sm text-muted leading-relaxed mb-3">Pioneer in laser skin resurfacing & non-invasive cosmetic procedures with 10+ years clinical experience.</p>
+            <div class="flex flex-wrap gap-1.5 justify-center">
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Q-Switch</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Botox</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">PRP</span>
+            </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-8 text-center border border-amber-100 card-hover" style="transition-delay:0.2s">
-          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&q=80" alt="Dr. Sneha Patel" class="team-img"/>
-          <h3 class="font-heading text-xl font-semibold text-brown mb-1">Dr. Sneha Patel</h3>
-          <span class="text-xs font-semibold text-gold uppercase tracking-widest block mb-3">Trichologist & Skin Expert</span>
-          <p class="text-sm text-muted leading-relaxed mb-4">Specialist in hair and scalp treatments with a deeply holistic approach to skin health, nutrition, and long-term skin wellness management.</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Hair Loss PRP</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">HydraFacial</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Acne Solutions</span>
+        <!-- Dr. Sneha -->
+        <div class="reveal team-card card-hover" style="background:#fff;border-radius:20px;border:1px solid #f0e6d8;overflow:hidden;transition-delay:0.2s">
+          <div style="height:220px;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=85" alt="Dr. Sneha Patel" style="width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.5s;" class="team-photo-img" loading="lazy"/>
+          </div>
+          <div class="p-6 text-center">
+            <span style="display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b8935a;background:#fdf5ea;padding:4px 12px;border-radius:100px;border:1px solid #e8d5b7;margin-bottom:10px;">Trichologist & Skin Expert</span>
+            <h3 class="font-heading text-lg font-semibold text-brown mb-2">Dr. Sneha Patel</h3>
+            <p class="text-sm text-muted leading-relaxed mb-3">Specialist in hair & scalp treatments with a holistic approach to skin health and long-term wellness.</p>
+            <div class="flex flex-wrap gap-1.5 justify-center">
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Hair PRP</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">HydraFacial</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Acne</span>
+            </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-8 text-center border border-amber-100 card-hover" style="transition-delay:0.1s">
-          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&q=80" alt="Dr. Ritu Sharma" class="team-img"/>
-          <h3 class="font-heading text-xl font-semibold text-brown mb-1">Dr. Ritu Sharma</h3>
-          <span class="text-xs font-semibold text-gold uppercase tracking-widest block mb-3">Senior Aesthetic Therapist</span>
-          <p class="text-sm text-muted leading-relaxed mb-4">7 years of experience in HydraFacial, chemical peels, and microneedling procedures.</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Q-Switch Laser</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Botox & Fillers</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">PRP Therapy</span>
+        <!-- Dr. Vinay -->
+        <div class="reveal team-card card-hover" style="background:#fff;border-radius:20px;border:1px solid #f0e6d8;overflow:hidden;transition-delay:0.3s">
+          <div style="height:220px;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?w=400&q=85" alt="Dr. Vinay Kapoor" style="width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.5s;" class="team-photo-img" loading="lazy"/>
+          </div>
+          <div class="p-6 text-center">
+            <span style="display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b8935a;background:#fdf5ea;padding:4px 12px;border-radius:100px;border:1px solid #e8d5b7;margin-bottom:10px;">Laser Technician & Trainer</span>
+            <h3 class="font-heading text-lg font-semibold text-brown mb-2">Dr. Vinay Kapoor</h3>
+            <p class="text-sm text-muted leading-relaxed mb-3">Certified in fractional CO2, IPL, and Q-switch technologies across 200+ monthly procedures.</p>
+            <div class="flex flex-wrap gap-1.5 justify-center">
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">CO2 Laser</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">IPL</span>
+              <span class="text-xs bg-amber-50 text-brown px-2.5 py-1 rounded-full border border-amber-100">Training</span>
+            </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-8 text-center border border-amber-100 card-hover" style="transition-delay:0.2s">
-          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&q=80" alt="Dr. Vinay Kapoor" class="team-img"/>
-          <h3 class="font-heading text-xl font-semibold text-brown mb-1">Dr. Vinay Kapoor</h3>
-          <span class="text-xs font-semibold text-gold uppercase tracking-widest block mb-3">Laser Technician & Trainer
-</span>
-          <p class="text-sm text-muted leading-relaxed mb-4">Certified in fractional CO2 laser, IPL, and Q-switch technologies across 200+ monthly procedures.</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Hair Loss PRP</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">HydraFacial</span>
-            <span class="text-xs bg-amber-50 text-brown px-3 py-1 rounded-full border border-amber-100">Acne Solutions</span>
-          </div>
-        </div>
+      </div>
     </div>
   </section>
 
   <!-- VALUES -->
   <section class="py-24 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
+      <div class="text-center mb-16 reveal">
         <span class="section-tag">What We Believe</span>
-        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">Our Core <em class="text-gold italic">Values</em></h2>
+        <h2 class="font-heading font-bold text-charcoal mt-3 mb-4 section-h2" style="font-size:2.6rem;">Our Core <em class="text-gold italic">Values</em></h2>
         <p class="text-muted max-w-lg mx-auto">These principles guide every consultation, every treatment, and every client relationship we build.</p>
       </div>
-      <div class="grid md:grid-cols-4 gap-6">
-        <div class="fade-in bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover">
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="reveal reveal-scale bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover">
           <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <i class="fa-solid fa-trophy text-gold text-xl"></i>
           </div>
           <h4 class="font-heading text-lg font-semibold text-brown mb-3">Excellence</h4>
           <p class="text-sm text-muted leading-relaxed">We uphold the highest standards in dermatological care, continuous education, and patient experience — always.</p>
         </div>
-        <div class="fade-in bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.1s">
+        <div class="reveal reveal-scale bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.1s">
           <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <i class="fa-solid fa-shield-halved text-green-600 text-xl"></i>
           </div>
           <h4 class="font-heading text-lg font-semibold text-brown mb-3">Safety First</h4>
           <p class="text-sm text-muted leading-relaxed">FDA-approved treatments only. Patient safety is never negotiated — patch tests, thorough consultations, no shortcuts.</p>
         </div>
-        <div class="fade-in bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.2s">
+        <div class="reveal reveal-scale bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.2s">
           <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <i class="fa-solid fa-leaf text-emerald-600 text-xl"></i>
           </div>
           <h4 class="font-heading text-lg font-semibold text-brown mb-3">Sustainability</h4>
-          <p class="text-sm text-muted leading-relaxed">Eco-conscious practices and cruelty-free, ethically sourced products across all our skin care treatments and services.</p>
+          <p class="text-sm text-muted leading-relaxed">Eco-conscious practices and cruelty-free, ethically sourced products across all our skin care treatments.</p>
         </div>
-        <div class="fade-in bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.3s">
+        <div class="reveal reveal-scale bg-cream rounded-2xl p-7 text-center border border-amber-100 card-hover" style="transition-delay:0.3s">
           <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <i class="fa-solid fa-handshake text-blue-500 text-xl"></i>
           </div>
           <h4 class="font-heading text-lg font-semibold text-brown mb-3">Integrity</h4>
-          <p class="text-sm text-muted leading-relaxed">Honest recommendations — we suggest only what truly benefits your skin, with full transparency in pricing and results.</p>
+          <p class="text-sm text-muted leading-relaxed">Honest recommendations — we suggest only what truly benefits your skin, with full transparency in pricing.</p>
         </div>
       </div>
     </div>
@@ -329,41 +456,41 @@
   <!-- AWARDS & CERTIFICATIONS -->
   <section class="py-20 bg-cream">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12 reveal">
         <span class="section-tag">Recognition</span>
-        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">Awards & <em class="text-gold italic">Certifications</em></h2>
+        <h2 class="font-heading font-bold text-charcoal mt-3 mb-4 section-h2" style="font-size:2.6rem;">Awards & <em class="text-gold italic">Certifications</em></h2>
       </div>
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="fade-in bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card">
+        <div class="reveal bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card">
           <div class="flex items-start gap-4">
             <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <i class="fa-solid fa-award text-gold text-xl"></i>
             </div>
             <div>
               <h4 class="font-heading text-lg font-semibold text-brown mb-1">Best Skin Clinic – Nashik 2023</h4>
-              <p class="text-xs text-muted">Awarded by Maharashtra Dermatology Association for excellence in patient care and treatment outcomes.</p>
+              <p class="text-xs text-muted leading-relaxed">Awarded by Maharashtra Dermatology Association for excellence in patient care and treatment outcomes.</p>
             </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card" style="transition-delay:0.1s">
+        <div class="reveal bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card" style="transition-delay:0.1s">
           <div class="flex items-start gap-4">
             <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <i class="fa-solid fa-certificate text-blue-500 text-xl"></i>
             </div>
             <div>
               <h4 class="font-heading text-lg font-semibold text-brown mb-1">ISO 9001:2015 Certified</h4>
-              <p class="text-xs text-muted">Certified for quality management systems ensuring consistent, safe, and high-standard clinical procedures.</p>
+              <p class="text-xs text-muted leading-relaxed">Certified for quality management systems ensuring consistent, safe, and high-standard clinical procedures.</p>
             </div>
           </div>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card" style="transition-delay:0.2s">
+        <div class="reveal bg-white rounded-2xl p-6 border border-amber-100 card-hover award-card" style="transition-delay:0.2s">
           <div class="flex items-start gap-4">
             <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <i class="fa-solid fa-star-of-life text-green-600 text-xl"></i>
             </div>
             <div>
               <h4 class="font-heading text-lg font-semibold text-brown mb-1">FDA-Approved Equipment</h4>
-              <p class="text-xs text-muted">All laser and treatment devices are FDA-approved with regular calibration and safety audits conducted quarterly.</p>
+              <p class="text-xs text-muted leading-relaxed">All laser and treatment devices are FDA-approved with regular calibration and safety audits conducted quarterly.</p>
             </div>
           </div>
         </div>
@@ -371,20 +498,74 @@
     </div>
   </section>
 
+  <!-- WHY CHOOSE US -->
+  <section class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal-left">
+          <span class="section-tag">Why Lumière</span>
+          <h2 class="font-heading font-bold text-charcoal mt-3 mb-6 leading-tight section-h2" style="font-size:2.5rem;">What Makes Us <em class="text-gold italic">Different</em></h2>
+          <div class="flex flex-col gap-5">
+            <div class="flex items-start gap-4 p-5 bg-cream rounded-2xl border border-amber-100 card-hover">
+              <div class="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-microscope text-gold text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-heading text-base font-semibold text-brown mb-1">Advanced Diagnostic Technology</h4>
+                <p class="text-sm text-muted leading-relaxed">VISIA® skin analysis, dermoscopy, and Wood's lamp diagnostics for precise skin assessment before every treatment.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-5 bg-cream rounded-2xl border border-amber-100 card-hover">
+              <div class="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-heart-pulse text-rose-400 text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-heading text-base font-semibold text-brown mb-1">Holistic Skin Wellness</h4>
+                <p class="text-sm text-muted leading-relaxed">We don't just treat symptoms — we address root causes including hormonal imbalances, diet, and lifestyle factors.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-5 bg-cream rounded-2xl border border-amber-100 card-hover">
+              <div class="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-clock text-blue-500 text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-heading text-base font-semibold text-brown mb-1">Post-Treatment Follow-Up</h4>
+                <p class="text-sm text-muted leading-relaxed">Dedicated aftercare support via WhatsApp with detailed home care protocols and scheduled follow-up consultations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-right" style="transition-delay:0.15s">
+          <div class="story-img shadow-xl" style="height:500px;">
+            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=85" alt="Advanced skin care treatment" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS STRIP -->
+  <section class="py-16 bg-brown overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 text-center reveal">
+      <p class="font-heading text-2xl text-white mb-2">Trusted by <span class="text-gold">8,000+</span> happy clients across Nashik & Maharashtra</p>
+      <p class="text-white/60 text-sm mt-2">Join them on your journey to radiant, healthy skin</p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-section py-24">
     <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-      <span class="section-tag">Start Today</span>
-      <h2 class="font-heading text-4xl lg:text-5xl font-bold text-charcoal mt-4 mb-5 leading-tight">
+      <span class="section-tag reveal">Start Today</span>
+      <h2 class="font-heading font-bold text-charcoal mt-4 mb-5 leading-tight reveal section-h2" style="font-size:2.8rem;">
         Let Us Care for <em class="text-gold italic">Your Skin</em>
       </h2>
-      <p class="text-muted text-lg mb-8 max-w-2xl mx-auto leading-relaxed">Schedule a free skin consultation and discover your personalized treatment journey with our expert dermatology team. Your radiant skin is waiting.</p>
-      <div class="flex flex-wrap gap-4 justify-center">
+      <p class="text-muted text-lg mb-8 max-w-2xl mx-auto leading-relaxed reveal">Schedule a free skin consultation and discover your personalized treatment journey with our expert dermatology team. Your radiant skin is waiting.</p>
+      <div class="flex flex-wrap gap-4 justify-center reveal">
         <a href="contact.html" class="btn-primary text-base px-8 py-4">
-          <i class="fa-regular fa-calendar-check mr-2"></i>Book Free Consultation
+          <i class="fa-regular fa-calendar-check"></i>Book Free Consultation
         </a>
         <a href="tel:+919876543210" class="btn-outline text-base px-8 py-4">
-          <i class="fa-solid fa-phone mr-2"></i>Call Now
+          <i class="fa-solid fa-phone"></i>Call Now
         </a>
       </div>
     </div>
@@ -399,7 +580,7 @@
             <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 flex items-center justify-center">
               <i class="fa-solid fa-spa text-white text-sm"></i>
             </div>
-            <span class="font-heading text-xl font-semibold text-white">Lumière <em class="text-gold italic">Skin</em></span>
+            <span style="font-family:'Playfair Display',serif" class="text-xl font-semibold text-white">Lumière <em class="text-gold italic">Skin</em></span>
           </div>
           <p class="text-sm leading-relaxed mb-6">Where science meets beauty. Your journey to radiant, healthy skin starts with a single consultation.</p>
           <div class="flex gap-3">
@@ -446,21 +627,80 @@
     </div>
   </footer>
 
-  <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn"><i class="fa-brands fa-whatsapp text-white text-2xl"></i></a>
+  <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn">
+    <i class="fa-brands fa-whatsapp text-white text-2xl"></i>
+  </a>
 
   <script>
+    // Navbar scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => { navbar.classList.toggle('navbar-scrolled', window.scrollY > 20); });
+
+    // Drawer
     const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('active'); mobileMenu.classList.remove('open'); }));
-    // Fade-in (old)
-    const fadeObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } }); }, { threshold: 0.12 });
-    document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
-    // Scroll reveal (new)
-    const revealObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      hamburger.classList.remove('active');
+    }
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    });
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+    // Scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObs.observe(el));
+
+    // Team photo hover
+    document.querySelectorAll('.team-photo-img').forEach(img => {
+      img.closest('.team-card').addEventListener('mouseenter', () => { img.style.transform = 'scale(1.06)'; });
+      img.closest('.team-card').addEventListener('mouseleave', () => { img.style.transform = 'scale(1)'; });
+    });
+
+    // Counter animation
+    function animateCounter(el, target, suffix) {
+      let start = 0;
+      const duration = 1800;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const val = Math.floor(progress * target);
+        el.textContent = (target >= 1000 ? (val >= 1000 ? (val/1000).toFixed(1)+'k' : val) : val) + (suffix || '');
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = (target >= 1000 ? (target/1000).toFixed(1)+'k' : target) + (suffix || '');
+      };
+      requestAnimationFrame(step);
+    }
+
+    const statObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const t = parseInt(el.dataset.target);
+          const suffix = t === 98 ? '%' : (t === 12 ? '+' : (t === 25 ? '+' : '+'));
+          animateCounter(el, t, suffix);
+          statObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.stat-num[data-target]').forEach(el => statObs.observe(el));
   </script>
 </body>
 </html>
