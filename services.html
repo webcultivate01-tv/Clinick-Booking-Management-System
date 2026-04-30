@@ -27,6 +27,7 @@
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #faf7f2; color: #2c2420; overflow-x: hidden; }
     html { overflow-x: hidden; }
+    *, *::before, *::after { box-sizing: border-box; }
     h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
     .navbar-scrolled { box-shadow: 0 4px 30px rgba(80,40,20,0.1); }
     .nav-link { position: relative; padding: 6px 0 !important; margin: 0 16px; background: transparent !important; border-radius: 0 !important; }
@@ -38,10 +39,12 @@
     .reveal.revealed { opacity: 1; transform: translateY(0); }
     .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal-left.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.93); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.revealed { opacity: 1; transform: scale(1); }
     .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(80,40,20,0.12); }
-    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
     .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8935a; background: #e8d5b7; padding: 6px 18px; border-radius: 100px; margin-bottom: 14px; }
     .btn-primary { display: inline-block; background: #5c3d2e; color: #faf7f2; padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; transition: all 0.25s; }
     .btn-primary:hover { background: #b8935a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(92,61,46,0.3); }
@@ -74,18 +77,40 @@
     .topbar-left { display: flex; align-items: center; gap: 20px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px){ .topbar-inner { justify-content: center; } .topbar-right { display: none; } }
-    @media (max-width: 768px) { .mobile-menu { display: none; } .mobile-menu.open { display: flex; } }
     .cta-section { background: linear-gradient(135deg, #fdf6f0 0%, #f5ede6 50%, #ede0d6 100%); position: relative; overflow: hidden; }
     .cta-section::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(184,147,90,0.15), transparent); border-radius: 50%; }
     .cta-section::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,160,154,0.15), transparent); border-radius: 50%; }
-    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform 0.2s; }
+    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 997; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform 0.2s; }
     .whatsapp-btn:hover { transform: scale(1.1); }
     .srv-detail { border-left: 4px solid transparent; transition: all 0.3s; }
     .srv-detail:hover { border-left-color: #b8935a; }
-    .cat-divider { border-bottom: 2px solid #e8d5b7; padding-bottom: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    /* Category divider — no icon, clean line */
+    .cat-divider { border-bottom: 2px solid #e8d5b7; padding-bottom: 14px; margin-bottom: 28px; }
+    .cat-divider h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: #5c3d2e; }
     .price-badge { background: #faf7f2; color: #5c3d2e; font-size: 0.8rem; padding: 4px 14px; border-radius: 100px; font-weight: 500; border: 1px solid #e8d5b7; }
     .time-badge { background: #f5ede6; color: #8a7a70; font-size: 0.8rem; padding: 4px 14px; border-radius: 100px; }
-    .srv-img-sm { width: 72px; height: 72px; border-radius: 16px; object-fit: cover; flex-shrink: 0; }
+    /* Service card image */
+    .srv-img-sm { width: 80px; height: 80px; border-radius: 14px; object-fit: cover; flex-shrink: 0; }
+    /* Why choose us image cards */
+    .why-img-card { border-radius: 20px; overflow: hidden; position: relative; }
+    .why-img-card img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.5s ease; display: block; }
+    .why-img-card:hover img { transform: scale(1.06); }
+    .why-img-card .why-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(44,36,32,0.65) 100%); }
+    .why-img-card .why-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; }
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .srv-detail { flex-direction: column !important; }
+      .srv-img-sm { width: 100% !important; height: 160px !important; border-radius: 12px !important; }
+      .btn-sm { align-self: flex-start; }
+    }
+    @media (max-width: 640px) {
+      section { overflow-x: hidden; }
+      .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; }
+      .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+      /* Prevent horizontal overflow from slide animations */
+      .reveal-left, .reveal-right { transform: translateY(28px) !important; }
+      .reveal-left.revealed, .reveal-right.revealed { transform: translateY(0) !important; }
+    }
   </style>
 </head>
 <body>
@@ -111,7 +136,7 @@
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-sm"></i>
         </div>
-        <span class="font-heading text-2xl font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span class="font-heading text-2xl font-semibold text-brown">Lumière <span class="text-gold font-heading">Skin</span></span>
       </a>
       <ul class="hidden md:flex items-center">
         <li><a href="index.html" class="nav-link text-sm font-medium text-muted transition-colors">Home</a></li>
@@ -136,7 +161,7 @@
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-xs"></i>
         </div>
-        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <span class="text-gold font-heading">Skin</span></span>
       </div>
       <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
     </div>
@@ -154,10 +179,10 @@
 
   <!-- PAGE HERO -->
   <section class="relative pt-24 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 60%, #ede0d6 100%);">
-    <div class="max-w-3xl mx-auto px-6 relative z-10 fade-in">
+    <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
       <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> What We Offer</span>
       <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight">
-        Our <em class="text-gold italic">Services</em>
+        Our <span class="text-gold font-heading">Services</span>
       </h1>
       <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto mb-8">Explore our complete range of advanced, clinically-proven skin treatments — each designed to address your unique concerns with precision, safety, and real results.</p>
       <div class="flex flex-wrap gap-4 justify-center">
@@ -176,15 +201,12 @@
 
       <!-- Category 1: Face Treatments -->
       <div class="mb-20" id="face-treatments">
-        <div class="cat-divider">
-          <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <i class="fa-solid fa-face-smile-beam text-gold"></i>
-          </div>
-          <h2 class="font-heading text-2xl font-semibold text-brown">Face Treatments</h2>
+        <div class="cat-divider reveal">
+          <h2>Face Treatments</h2>
         </div>
         <div class="flex flex-col gap-5">
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap">
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5">
             <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=200&q=80" alt="HydraFacial" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">HydraFacial</h3>
@@ -198,7 +220,7 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.1s">
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.08s">
             <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&q=80" alt="Chemical Peel" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Chemical Peel</h3>
@@ -212,10 +234,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.2s">
-            <div class="srv-img-sm bg-gradient-to-br from-sky-100 to-blue-200 flex items-center justify-center">
-              <i class="fa-solid fa-wind text-blue-400 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.16s">
+            <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=200&q=80" alt="Oxygen Facial" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Oxygen Facial</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Infuse pure oxygen and vital nutrients deep into the skin layers, leaving your complexion visibly brighter, plumper, and more youthful — instantly. Perfect for dull, dehydrated, and lifeless skin showing signs of urban stress.</p>
@@ -228,10 +248,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.3s">
-            <div class="srv-img-sm bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-              <i class="fa-solid fa-needle text-orange-400 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.24s">
+            <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200&q=80" alt="Microneedling" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Microneedling (Collagen Induction)</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">FDA-approved micro-needle therapy using controlled skin punctures to stimulate collagen and elastin production. Dramatically improves skin texture, acne scars, open pores, and overall skin firmness with minimal downtime.</p>
@@ -249,15 +267,12 @@
 
       <!-- Category 2: Laser Treatments -->
       <div class="mb-20" id="laser-treatments">
-        <div class="cat-divider">
-          <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <i class="fa-solid fa-bolt text-blue-500"></i>
-          </div>
-          <h2 class="font-heading text-2xl font-semibold text-brown">Laser Treatments</h2>
+        <div class="cat-divider reveal">
+          <h2>Laser Treatments</h2>
         </div>
         <div class="flex flex-col gap-5">
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap">
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5">
             <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200&q=80" alt="Laser Resurfacing" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Laser Skin Resurfacing</h3>
@@ -271,10 +286,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.1s">
-            <div class="srv-img-sm bg-gradient-to-br from-cyan-100 to-blue-200 flex items-center justify-center">
-              <i class="fa-solid fa-wand-sparkles text-cyan-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.08s">
+            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=200&q=80" alt="Laser Hair Removal" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Laser Hair Removal</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Permanent hair reduction using the latest diode laser technology. Safe for all Indian skin tones — Fitzpatrick types III–VI. Covers face, underarms, legs, bikini, and full body. Say goodbye to waxing and shaving forever.</p>
@@ -287,10 +300,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.2s">
-            <div class="srv-img-sm bg-gradient-to-br from-violet-100 to-purple-200 flex items-center justify-center">
-              <i class="fa-solid fa-crosshairs text-violet-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.16s">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=200&q=80" alt="Q-Switch Laser" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Q-Switch Laser (Pigmentation)</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Target stubborn dark spots, melasma, sun damage, tattoo marks, and post-inflammatory hyperpigmentation with precision Nd:YAG Q-Switch laser. Clinically proven results from the very first session for all skin types.</p>
@@ -303,10 +314,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.3s">
-            <div class="srv-img-sm bg-gradient-to-br from-rose-100 to-pink-200 flex items-center justify-center">
-              <i class="fa-solid fa-circle-radiation text-rose-400 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.24s">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&q=80" alt="IPL Photorejuvenation" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">IPL Photorejuvenation</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Intense Pulsed Light therapy targets sun damage, redness, rosacea, and broken capillaries without damaging the skin surface. A non-ablative treatment for clearer, more even-toned, and youthful-looking skin.</p>
@@ -324,15 +333,12 @@
 
       <!-- Category 3: Anti-Aging & Injectables -->
       <div class="mb-20" id="anti-aging">
-        <div class="cat-divider">
-          <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <i class="fa-solid fa-heart-pulse text-rose-400"></i>
-          </div>
-          <h2 class="font-heading text-2xl font-semibold text-brown">Anti-Aging & Injectables</h2>
+        <div class="cat-divider reveal">
+          <h2>Anti-Aging &amp; Injectables</h2>
         </div>
         <div class="flex flex-col gap-5">
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap">
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5">
             <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=200&q=80" alt="Botox" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Botox Treatment</h3>
@@ -346,10 +352,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.1s">
-            <div class="srv-img-sm bg-gradient-to-br from-amber-100 to-yellow-200 flex items-center justify-center">
-              <i class="fa-solid fa-gem text-amber-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.08s">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&q=80" alt="Dermal Fillers" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Dermal Fillers</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Restore lost volume, define cheekbones, plump lips, soften nasolabial folds, and smooth deep-set wrinkles with premium hyaluronic acid fillers. Results are immediate, natural-looking, and reversible if needed.</p>
@@ -362,10 +366,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.2s">
-            <div class="srv-img-sm bg-gradient-to-br from-red-100 to-rose-200 flex items-center justify-center">
-              <i class="fa-solid fa-droplet text-red-400 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.16s">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=200&q=80" alt="PRP Therapy" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">PRP Therapy (Platelet-Rich Plasma)</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Harness the healing power of your own platelets for skin rejuvenation and hair loss treatment. PRP stimulates collagen production, improves skin texture, reduces fine lines, and dramatically revives thinning hair.</p>
@@ -378,10 +380,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.3s">
-            <div class="srv-img-sm bg-gradient-to-br from-teal-100 to-emerald-200 flex items-center justify-center">
-              <i class="fa-solid fa-syringe text-teal-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.24s">
+            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=200&q=80" alt="Skin Boosters" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Skin Boosters (Profhilo / Juvederm)</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Next-generation hyaluronic acid bio-remodelling injections that deeply hydrate and lift skin from within — improving overall skin quality, elasticity, and radiance. Ideal for treating crepey, dehydrated, or aging skin.</p>
@@ -399,18 +399,13 @@
 
       <!-- Category 4: Acne & Skin Conditions -->
       <div class="mb-12" id="acne-solutions">
-        <div class="cat-divider">
-          <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <i class="fa-solid fa-seedling text-green-600"></i>
-          </div>
-          <h2 class="font-heading text-2xl font-semibold text-brown">Acne & Skin Conditions</h2>
+        <div class="cat-divider reveal">
+          <h2>Acne &amp; Skin Conditions</h2>
         </div>
         <div class="flex flex-col gap-5">
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap">
-            <div class="srv-img-sm bg-gradient-to-br from-green-100 to-lime-200 flex items-center justify-center">
-              <i class="fa-solid fa-virus-slash text-green-600 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5">
+            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=200&q=80" alt="Acne Treatment" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Acne Treatment Program</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Comprehensive acne management combining prescription topicals, diet and lifestyle guidance, customized chemical peels, light therapy, and extraction treatments. A structured 8–12 week program for clear, breakout-free skin that lasts.</p>
@@ -423,10 +418,8 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.1s">
-            <div class="srv-img-sm bg-gradient-to-br from-slate-100 to-gray-200 flex items-center justify-center">
-              <i class="fa-solid fa-layer-group text-slate-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.08s">
+            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&q=80" alt="Acne Scar Revision" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
               <h3 class="font-heading text-xl font-semibold text-brown mb-2">Acne Scar Revision</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Multi-modal approach combining micro-needling, subcision, fractional laser, and dermal fillers to significantly reduce all types of acne scarring — ice pick, boxcar, rolling, and post-inflammatory marks. Restore smooth, even skin.</p>
@@ -439,12 +432,10 @@
             <a href="contact.html" class="btn-sm flex-shrink-0 self-center">Book <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
           </div>
 
-          <div class="fade-in bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5 flex-wrap md:flex-nowrap" style="transition-delay:0.2s">
-            <div class="srv-img-sm bg-gradient-to-br from-orange-100 to-amber-200 flex items-center justify-center">
-              <i class="fa-solid fa-sun text-orange-500 text-2xl"></i>
-            </div>
+          <div class="reveal bg-cream rounded-2xl border border-amber-100 p-6 card-hover srv-detail flex items-start gap-5" style="transition-delay:0.16s">
+            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=200&q=80" alt="Pigmentation Treatment" class="srv-img-sm"/>
             <div class="flex-1 min-w-0">
-              <h3 class="font-heading text-xl font-semibold text-brown mb-2">Pigmentation & Melasma Treatment</h3>
+              <h3 class="font-heading text-xl font-semibold text-brown mb-2">Pigmentation &amp; Melasma Treatment</h3>
               <p class="text-sm text-muted leading-relaxed mb-3">Targeted treatment for stubborn facial pigmentation, melasma, sunspots, and uneven skin tone using a combination of topical brightening agents, chemical peels, laser toning, and sunscreen therapy protocols.</p>
               <div class="flex flex-wrap gap-2">
                 <span class="time-badge"><i class="fa-regular fa-clock mr-1"></i>30–60 min</span>
@@ -462,45 +453,64 @@
   </section>
 
   <!-- WHY LUMIERE -->
-  <section class="py-20 bg-cream">
+  <section class="py-20 bg-cream overflow-hidden">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-14">
+      <div class="text-center mb-14 reveal">
         <span class="section-tag">Why Choose Us</span>
-        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">The Lumière <em class="text-gold italic">Difference</em></h2>
+        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">The Lumière <span class="text-gold font-heading">Difference</span></h2>
         <p class="text-muted max-w-lg mx-auto">What sets our treatments apart from the rest — every single time.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="fade-in bg-white rounded-2xl p-7 border border-amber-100 card-hover text-center">
-          <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <i class="fa-solid fa-user-doctor text-gold text-2xl"></i>
+
+        <div class="reveal why-img-card card-hover border border-amber-100 bg-white rounded-2xl overflow-hidden" style="transition-delay:0.05s">
+          <div style="overflow:hidden;height:200px;">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80" alt="Personalized Plans" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;"/>
           </div>
-          <h4 class="font-heading text-xl font-semibold text-brown mb-3">Personalized Plans</h4>
-          <p class="text-sm text-muted leading-relaxed">Every treatment is preceded by a detailed skin analysis. We never offer one-size-fits-all solutions — your skin is unique and your plan will be too.</p>
-        </div>
-        <div class="fade-in bg-white rounded-2xl p-7 border border-amber-100 card-hover text-center" style="transition-delay:0.1s">
-          <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <i class="fa-solid fa-microscope text-blue-500 text-2xl"></i>
+          <div class="p-7">
+            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+              <i class="fa-solid fa-user-doctor text-gold text-xl"></i>
+            </div>
+            <h4 class="font-heading text-xl font-semibold text-brown mb-3">Personalized Plans</h4>
+            <p class="text-sm text-muted leading-relaxed">Every treatment is preceded by a detailed skin analysis. We never offer one-size-fits-all solutions — your skin is unique and your plan will be too.</p>
           </div>
-          <h4 class="font-heading text-xl font-semibold text-brown mb-3">FDA-Approved Only</h4>
-          <p class="text-sm text-muted leading-relaxed">We use only clinically tested, FDA-approved devices and dermatologist-grade products. Our protocols are evidence-based and globally recognized.</p>
         </div>
-        <div class="fade-in bg-white rounded-2xl p-7 border border-amber-100 card-hover text-center" style="transition-delay:0.2s">
-          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <i class="fa-solid fa-shield-halved text-green-600 text-2xl"></i>
+
+        <div class="reveal why-img-card card-hover border border-amber-100 bg-white rounded-2xl overflow-hidden" style="transition-delay:0.12s">
+          <div style="overflow:hidden;height:200px;">
+            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="FDA Approved" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;"/>
           </div>
-          <h4 class="font-heading text-xl font-semibold text-brown mb-3">Safe for Indian Skin</h4>
-          <p class="text-sm text-muted leading-relaxed">Our dermatologists specialize in treating Fitzpatrick III–VI skin tones — ensuring effective, safe, and ethnically appropriate treatment protocols at all times.</p>
+          <div class="p-7">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+              <i class="fa-solid fa-microscope text-blue-500 text-xl"></i>
+            </div>
+            <h4 class="font-heading text-xl font-semibold text-brown mb-3">FDA-Approved Only</h4>
+            <p class="text-sm text-muted leading-relaxed">We use only clinically tested, FDA-approved devices and dermatologist-grade products. Our protocols are evidence-based and globally recognized.</p>
+          </div>
         </div>
+
+        <div class="reveal why-img-card card-hover border border-amber-100 bg-white rounded-2xl overflow-hidden" style="transition-delay:0.2s">
+          <div style="overflow:hidden;height:200px;">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80" alt="Safe for Indian Skin" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;"/>
+          </div>
+          <div class="p-7">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4">
+              <i class="fa-solid fa-shield-halved text-green-600 text-xl"></i>
+            </div>
+            <h4 class="font-heading text-xl font-semibold text-brown mb-3">Safe for Indian Skin</h4>
+            <p class="text-sm text-muted leading-relaxed">Our dermatologists specialize in treating Fitzpatrick III–VI skin tones — ensuring effective, safe, and ethnically appropriate treatment protocols at all times.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="cta-section py-24">
-    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
       <span class="section-tag">Get Expert Advice</span>
       <h2 class="font-heading text-4xl lg:text-5xl font-bold text-charcoal mt-4 mb-5 leading-tight">
-        Not Sure Which Treatment? <em class="text-gold italic">We'll Guide You!</em>
+        Not Sure Which Treatment? <span class="text-gold font-heading">We'll Guide You!</span>
       </h2>
       <p class="text-muted text-lg mb-8 max-w-2xl mx-auto leading-relaxed">Book a free 30-minute skin analysis consultation with our certified dermatologist. We'll assess your skin, understand your goals, and recommend the best treatment plan for you — at no cost.</p>
       <div class="flex flex-wrap gap-4 justify-center">
@@ -511,55 +521,116 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-charcoal py-16 text-white/60">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid md:grid-cols-4 gap-12 pb-12 border-b border-white/10">
+  <footer style="background: #1a1008;">
+    <!-- Main Footer -->
+    <div class="max-w-6xl mx-auto px-6 pt-14 pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10" style="border-bottom: 1px solid rgba(184,147,90,0.18);">
+
+        <!-- Col 1: Brand -->
         <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 flex items-center justify-center"><i class="fa-solid fa-spa text-white text-sm"></i></div>
-            <span class="font-heading text-xl font-semibold text-white">Lumière <em class="text-gold italic">Skin</em></span>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #b8935a, #8a6a3a);">
+              <i class="fa-solid fa-spa text-white text-base"></i>
+            </div>
+            <div>
+              <div style="font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:#fff; line-height:1.1;">Lumière <em style="color:#b8935a; font-style:italic;">Skin</em></div>
+              <div style="font-size:0.7rem; color:rgba(255,255,255,0.45); letter-spacing:0.06em; margin-top:1px;">Advanced Dermatology Care</div>
+            </div>
           </div>
-          <p class="text-sm leading-relaxed mb-6">Where science meets beauty. Your journey to radiant, healthy skin starts here.</p>
-          <div class="flex gap-3">
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-youtube text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+          <p style="font-size:0.82rem; color:rgba(255,255,255,0.5); line-height:1.75; margin-bottom:20px;">Your trusted skin clinic for comprehensive dermatology care. Combining compassionate care with cutting-edge technology since 2012.</p>
+          <!-- Social Icons -->
+          <div class="flex gap-2">
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a href="https://wa.me/919876543210" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
           </div>
         </div>
+
+        <!-- Col 2: Quick Links -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Quick Links</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="index.html" class="hover:text-gold-light transition-colors">Home</a></li>
-            <li><a href="about.html" class="hover:text-gold-light transition-colors">About Us</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Services</a></li>
-            <li><a href="gallery.html" class="hover:text-gold-light transition-colors">Gallery</a></li>
-            <li><a href="contact.html" class="hover:text-gold-light transition-colors">Contact</a></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Quick Links</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li><a href="index.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Home</a></li>
+            <li><a href="about.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> About Us</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Services</a></li>
+            <li><a href="gallery.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Gallery</a></li>
+            <li><a href="contact.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Contact</a></li>
+            <li><a href="contact.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Book Appointment</a></li>
           </ul>
         </div>
+
+        <!-- Col 3: Our Services -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Treatments</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="#face-treatments" class="hover:text-gold-light transition-colors">HydraFacial</a></li>
-            <li><a href="#laser-treatments" class="hover:text-gold-light transition-colors">Laser Treatments</a></li>
-            <li><a href="#anti-aging" class="hover:text-gold-light transition-colors">Botox & Fillers</a></li>
-            <li><a href="#anti-aging" class="hover:text-gold-light transition-colors">PRP Therapy</a></li>
-            <li><a href="#acne-solutions" class="hover:text-gold-light transition-colors">Acne Solutions</a></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Our Services</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> HydraFacial</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Laser Treatment</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Chemical Peels</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Botox &amp; Fillers</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> PRP Therapy</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Acne Solutions</a></li>
           </ul>
         </div>
+
+        <!-- Col 4: Contact Us -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Contact Info</h5>
-          <ul class="space-y-4 text-sm">
-            <li class="flex gap-3"><i class="fa-solid fa-location-dot text-gold mt-0.5 flex-shrink-0"></i><span>123, Skin Street, Nashik, MH – 422001</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-phone text-gold mt-0.5 flex-shrink-0"></i><span>+91 98765 43210</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-envelope text-gold mt-0.5 flex-shrink-0"></i><span>hello@lumiereskin.com</span></li>
-            <li class="flex gap-3"><i class="fa-regular fa-clock text-gold mt-0.5 flex-shrink-0"></i><span>Mon–Sat: 9 AM – 7 PM</span></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Contact Us</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;">
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-phone" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Phone</div>
+                <a href="tel:+919876543210" style="font-size:0.84rem;color:rgba(255,255,255,0.7);text-decoration:none;">+91 98765 43210</a>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-envelope" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Email</div>
+                <a href="mailto:hello@lumiereskin.com" style="font-size:0.84rem;color:rgba(255,255,255,0.7);text-decoration:none;">hello@lumiereskin.com</a>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-location-dot" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Address</div>
+                <span style="font-size:0.84rem;color:rgba(255,255,255,0.7);">123, Skin Street, Near City Hospital,<br/>Nashik, Maharashtra – 422001</span>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-regular fa-clock" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Hours</div>
+                <span style="font-size:0.84rem;color:rgba(255,255,255,0.7);">Mon–Sat: 9 AM – 7 PM</span><br/>
+                <span style="font-size:0.82rem;color:#b8935a;">Sun: Emergency Only</span>
+              </div>
+            </li>
           </ul>
         </div>
+
       </div>
-      <div class="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
-        <p>&copy; 2025 Lumière Skin Clinic. All Rights Reserved.</p>
-        <p>Designed with care for your skin journey</p>
+
+      <!-- Bottom Bar -->
+      <div style="padding-top:18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;">
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin:0;">&copy; 2025 Lumière Skin Clinic. All rights reserved</p>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin:0;">Designed by <a href="#" style="color:#b8935a;text-decoration:none;font-weight:600;">WebCultivate Software Solutions</a></p>
       </div>
     </div>
   </footer>
@@ -579,11 +650,24 @@
     drawerClose.addEventListener('click', closeDrawer);
     overlay.addEventListener('click', closeDrawer);
     drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
-    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    // Scroll reveal
-    const revealObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+    // Unified scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObs.observe(el));
+
+    // Image hover zoom on why cards
+    document.querySelectorAll('.why-img-card').forEach(card => {
+      const img = card.querySelector('img');
+      card.addEventListener('mouseenter', () => { if(img) img.style.transform = 'scale(1.06)'; });
+      card.addEventListener('mouseleave', () => { if(img) img.style.transform = 'scale(1)'; });
+    });
   </script>
 </body>
 </html>

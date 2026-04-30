@@ -36,10 +36,14 @@
     /* Scroll Reveal */
     .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.93); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.revealed { opacity: 1; transform: scale(1); }
     .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .card-hover:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(80,40,20,0.12); }
-    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
     .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8935a; background: #e8d5b7; padding: 6px 18px; border-radius: 100px; margin-bottom: 14px; }
     .btn-primary { display: inline-block; background: #5c3d2e; color: #faf7f2; padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; transition: all 0.25s; }
     .btn-primary:hover { background: #b8935a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(92,61,46,0.3); }
@@ -100,6 +104,39 @@
     /* Info Item */
     .info-icon-box { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
+    /* ---- MOBILE RESPONSIVE ---- */
+    @media (max-width: 640px) {
+      /* Hero */
+      .hero-title { font-size: 2.4rem !important; }
+      /* Quick cards */
+      .quick-cards-grid { grid-template-columns: 1fr !important; }
+      /* Contact main grid */
+      .contact-main-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+      /* Form two-col grid → single col */
+      .form-2col { grid-template-columns: 1fr !important; }
+      /* FAQ */
+      .faq-btn { font-size: 0.88rem; padding: 14px 16px; }
+      .faq-answer { padding: 0 16px; }
+      .faq-answer.open { padding-bottom: 14px; padding-top: 10px; }
+      /* CTA */
+      .cta-section h2 { font-size: 2rem !important; }
+      /* Footer grid */
+      .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+      /* Topbar */
+      .topbar-inner { flex-direction: column; gap: 4px; text-align: center; }
+      /* Section padding */
+      .py-24 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+      .py-16 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+      /* Prevent horizontal overflow from slide animations */
+      .reveal-left, .reveal-right { transform: translateY(28px) !important; }
+      .reveal-left.revealed, .reveal-right.revealed { transform: translateY(0) !important; }
+      section { overflow-x: hidden; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr !important; }
+      .hero-title { font-size: 2rem !important; }
+    }
+
     /* Success Message */
     .success-banner { background: linear-gradient(135deg, #d4edda, #c3e6cb); border: 1px solid #b1dfbb; border-radius: 14px; padding: 16px 20px; display: none; align-items: center; gap: 12px; }
     .success-banner.show { display: flex; }
@@ -128,7 +165,7 @@
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-sm"></i>
         </div>
-        <span class="font-heading text-2xl font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span class="font-heading text-2xl font-semibold text-brown">Lumière <span class="text-gold font-heading">Skin</span></span>
       </a>
       <ul class="hidden md:flex items-center">
         <li><a href="index.html" class="nav-link text-sm font-medium text-muted transition-colors">Home</a></li>
@@ -136,7 +173,7 @@
         <li><a href="services.html" class="nav-link text-sm font-medium text-muted transition-colors">Services</a></li>
         <li><a href="gallery.html" class="nav-link text-sm font-medium text-muted transition-colors">Gallery</a></li>
         <li><a href="contact.html" class="nav-link active text-sm font-medium text-brown transition-colors">Contact</a></li>
-        <li class="ml-6"><a href="contact.html" class="btn-primary text-sm">Book Now</a></li>
+        <li class="ml-6"><a href="#bookingForm" class="btn-primary text-sm">Book Now</a></li>
       </ul>
       <button id="hamburger" class="md:hidden hamburger flex flex-col gap-1.5 p-2">
         <span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span>
@@ -153,7 +190,7 @@
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-xs"></i>
         </div>
-        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <span class="text-gold font-heading">Skin</span></span>
       </div>
       <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
     </div>
@@ -165,16 +202,22 @@
       <a href="contact.html" class="active"><i class="fa-solid fa-envelope"></i> Contact</a>
     </nav>
     <div class="drawer-footer">
-      <a href="contact.html" style="display:flex;align-items:center;justify-content:center;gap:8px;" class="btn-primary"><i class="fa-regular fa-calendar-check"></i> Book Consultation</a>
+      <a href="#bookingForm" onclick="closeDrawer()" style="display:flex;align-items:center;justify-content:center;gap:8px;" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M6 7H14M6 11H14M6 15H10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        Book Consultation
+      </a>
     </div>
   </div>
 
   <!-- PAGE HERO -->
   <section class="relative pt-24 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 100%);">
-    <div class="max-w-3xl mx-auto px-6 relative z-10 fade-in">
+    <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
       <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> Get in Touch</span>
-      <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight">
-        Contact <em class="text-gold italic">Us</em>
+      <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight hero-title">
+        Contact <span class="text-gold font-heading">Us</span>
       </h1>
       <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto">We're here to help you begin your skin transformation journey. Reach out to book an appointment, ask questions, or simply learn more about our treatments.</p>
     </div>
@@ -183,10 +226,12 @@
   <!-- QUICK CONTACT CARDS -->
   <section class="py-10 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="grid md:grid-cols-3 gap-6">
-        <a href="tel:+919876543210" class="fade-in bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group">
-          <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center group-hover:bg-brown transition-colors">
-            <i class="fa-solid fa-phone text-gold text-xl group-hover:text-white transition-colors"></i>
+      <div class="grid md:grid-cols-3 gap-6 quick-cards-grid">
+        <a href="tel:+919876543210" class="reveal bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group">
+          <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center group-hover:bg-brown transition-colors flex-shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4.5C4 4.5 5.8 4 7.2 6.3C8.6 8.5 8 10 8 10L6.2 12.2C6.2 12.2 8 16 12 18L14.2 16.2C14.2 16.2 15.5 15.8 17.8 17.2C20.1 18.5 19.5 20.5 19.5 20.5C19.5 20.5 18.5 22.5 16 21.5C13.5 20.5 5.5 16 3 9.5C1.8 6.5 4 4.5 4 4.5Z" stroke="#b8935a" class="group-hover:stroke-white transition-all" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
           </div>
           <div>
             <div class="text-xs font-semibold text-gold uppercase tracking-widest mb-1">Call Us</div>
@@ -194,22 +239,28 @@
             <div class="text-xs text-muted">Available Mon–Sat, 9 AM–7 PM</div>
           </div>
         </a>
-        <a href="https://wa.me/919876543210" target="_blank" class="fade-in bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group" style="transition-delay:0.1s">
-          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center group-hover:bg-green-500 transition-colors">
-            <i class="fa-brands fa-whatsapp text-green-600 text-xl group-hover:text-white transition-colors"></i>
+        <a href="https://wa.me/919876543210" target="_blank" class="reveal bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group" style="transition-delay:0.1s">
+          <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center group-hover:bg-brown transition-colors flex-shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.477 2 2 6.477 2 12C2 13.776 2.474 15.441 3.293 16.877L2 22L7.293 20.744C8.695 21.538 10.296 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" stroke="#b8935a" class="group-hover:stroke-white transition-all" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M9 9.5C9 9.5 8.5 11 10 13C11.5 15 13.5 16 13.5 16L15 14.5C15 14.5 16 14.8 17 15.5C18 16.2 17.5 17 17.5 17C17.5 17 16.5 18.5 14 17C11.5 15.5 9 12 9 10.5C9 10.5 8.8 9.5 9 9.5Z" stroke="#b8935a" class="group-hover:stroke-white transition-all" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
           </div>
           <div>
-            <div class="text-xs font-semibold text-green-600 uppercase tracking-widest mb-1">WhatsApp</div>
+            <div class="text-xs font-semibold text-gold uppercase tracking-widest mb-1">WhatsApp</div>
             <div class="font-semibold text-brown">Chat Instantly</div>
             <div class="text-xs text-muted">Quick replies within minutes</div>
           </div>
         </a>
-        <a href="mailto:hello@lumiereskin.com" class="fade-in bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group" style="transition-delay:0.2s">
-          <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center group-hover:bg-blue-500 transition-colors">
-            <i class="fa-solid fa-envelope text-blue-500 text-xl group-hover:text-white transition-colors"></i>
+        <a href="mailto:hello@lumiereskin.com" class="reveal bg-cream rounded-2xl p-6 border border-amber-100 card-hover flex items-center gap-4 group" style="transition-delay:0.2s">
+          <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center group-hover:bg-brown transition-colors flex-shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="5" width="20" height="14" rx="3" stroke="#b8935a" class="group-hover:stroke-white transition-all" stroke-width="1.8"/>
+              <path d="M2 8.5L10.5 13.5C11.4 14.1 12.6 14.1 13.5 13.5L22 8.5" stroke="#b8935a" class="group-hover:stroke-white transition-all" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
           </div>
           <div>
-            <div class="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-1">Email Us</div>
+            <div class="text-xs font-semibold text-gold uppercase tracking-widest mb-1">Email Us</div>
             <div class="font-semibold text-brown">hello@lumiereskin.com</div>
             <div class="text-xs text-muted">We reply within 24 hours</div>
           </div>
@@ -221,18 +272,21 @@
   <!-- CONTACT MAIN SECTION -->
   <section class="py-16 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="grid lg:grid-cols-2 gap-16 items-start">
+      <div class="grid lg:grid-cols-2 gap-10 items-start contact-main-grid">
 
         <!-- INFO SIDE -->
-        <div class="fade-in">
+        <div class="reveal-left">
           <span class="section-tag">Visit Us</span>
-          <h2 class="font-heading text-3xl font-bold text-charcoal mt-3 mb-4">Our <em class="text-gold italic">Clinic</em> Information</h2>
+          <h2 class="font-heading text-3xl font-bold text-charcoal mt-3 mb-4">Our <span class="text-gold font-heading">Clinic</span> Information</h2>
           <p class="text-muted leading-relaxed mb-8">Whether you have questions about treatments, pricing, or want to book an appointment, we'd love to hear from you. Walk-ins are welcome based on availability.</p>
 
           <div class="flex flex-col gap-6 mb-10">
             <div class="flex gap-4 items-start">
               <div class="info-icon-box bg-amber-50">
-                <i class="fa-solid fa-location-dot text-gold text-lg"></i>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 2C7.686 2 5 4.686 5 8C5 12.5 11 20 11 20C11 20 17 12.5 17 8C17 4.686 14.314 2 11 2Z" stroke="#b8935a" stroke-width="1.8" stroke-linejoin="round"/>
+                  <circle cx="11" cy="8" r="2.5" stroke="#b8935a" stroke-width="1.6"/>
+                </svg>
               </div>
               <div>
                 <strong class="block font-heading text-base font-semibold text-brown mb-1">Our Location</strong>
@@ -241,8 +295,10 @@
               </div>
             </div>
             <div class="flex gap-4 items-start">
-              <div class="info-icon-box bg-rose-50">
-                <i class="fa-solid fa-phone text-rose-400 text-lg"></i>
+              <div class="info-icon-box bg-amber-50">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 3.5C3.5 3.5 5.3 3 6.7 5.3C8.1 7.5 7.5 9 7.5 9L5.7 11.2C5.7 11.2 7.5 15 11.5 17L13.7 15.2C13.7 15.2 15 14.8 17.3 16.2C19.6 17.5 19 19.5 19 19.5C19 19.5 18 21.5 15.5 20.5C13 19.5 5 15 2.5 8.5C1.3 5.5 3.5 3.5 3.5 3.5Z" stroke="#b8935a" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
               </div>
               <div>
                 <strong class="block font-heading text-base font-semibold text-brown mb-1">Phone & WhatsApp</strong>
@@ -250,8 +306,11 @@
               </div>
             </div>
             <div class="flex gap-4 items-start">
-              <div class="info-icon-box bg-blue-50">
-                <i class="fa-solid fa-envelope text-blue-400 text-lg"></i>
+              <div class="info-icon-box bg-amber-50">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="5" width="18" height="12" rx="2.5" stroke="#b8935a" stroke-width="1.8"/>
+                  <path d="M2 8L9.5 12.5C10.4 13.1 11.6 13.1 12.5 12.5L20 8" stroke="#b8935a" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
               </div>
               <div>
                 <strong class="block font-heading text-base font-semibold text-brown mb-1">Email</strong>
@@ -259,8 +318,11 @@
               </div>
             </div>
             <div class="flex gap-4 items-start">
-              <div class="info-icon-box bg-green-50">
-                <i class="fa-regular fa-clock text-green-500 text-lg"></i>
+              <div class="info-icon-box bg-amber-50">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="8.5" stroke="#b8935a" stroke-width="1.8"/>
+                  <path d="M11 6.5V11.5L14.5 14" stroke="#b8935a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
               <div>
                 <strong class="block font-heading text-base font-semibold text-brown mb-1">Working Hours</strong>
@@ -273,14 +335,26 @@
           <div class="mb-8">
             <h4 class="font-heading text-base font-semibold text-brown mb-4">Follow Us</h4>
             <div class="flex gap-3 flex-wrap">
-              <a href="#" class="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm px-4 py-2 rounded-full font-medium hover:opacity-90 transition-opacity">
-                <i class="fa-brands fa-instagram"></i> Instagram
+              <a href="#" class="flex items-center gap-2 bg-cream border border-amber-200 text-brown text-sm px-4 py-2 rounded-full font-medium hover:bg-brown hover:text-white hover:border-brown transition-all group">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="group-hover:stroke-white transition-colors">
+                  <rect x="2" y="2" width="20" height="20" rx="5" stroke="#5c3d2e" class="group-hover:stroke-white" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="4.5" stroke="#5c3d2e" class="group-hover:stroke-white" stroke-width="2"/>
+                  <circle cx="17.5" cy="6.5" r="1.2" fill="#5c3d2e" class="group-hover:fill-white"/>
+                </svg>
+                Instagram
               </a>
-              <a href="#" class="flex items-center gap-2 bg-blue-600 text-white text-sm px-4 py-2 rounded-full font-medium hover:opacity-90 transition-opacity">
-                <i class="fa-brands fa-facebook-f"></i> Facebook
+              <a href="#" class="flex items-center gap-2 bg-cream border border-amber-200 text-brown text-sm px-4 py-2 rounded-full font-medium hover:bg-brown hover:text-white hover:border-brown transition-all group">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="#5c3d2e" class="group-hover:stroke-white transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Facebook
               </a>
-              <a href="#" class="flex items-center gap-2 bg-red-600 text-white text-sm px-4 py-2 rounded-full font-medium hover:opacity-90 transition-opacity">
-                <i class="fa-brands fa-youtube"></i> YouTube
+              <a href="#" class="flex items-center gap-2 bg-cream border border-amber-200 text-brown text-sm px-4 py-2 rounded-full font-medium hover:bg-brown hover:text-white hover:border-brown transition-all group">
+                <svg width="16" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.54 6.42C22.4212 5.94541 22.1793 5.51057 21.8387 5.15941C21.498 4.80824 21.0708 4.55318 20.6 4.42C18.88 4 12 4 12 4C12 4 5.12 4 3.4 4.46C2.92925 4.59318 2.50198 4.84824 2.16135 5.19941C1.82072 5.55057 1.57879 5.98541 1.46 6.46C1.14521 8.20556 0.991235 9.97631 1 11.75C0.988787 13.537 1.14277 15.3213 1.46 17.08C1.59096 17.5398 1.83831 17.9581 2.17814 18.2945C2.51798 18.6308 2.93882 18.8738 3.4 19C5.12 19.46 12 19.46 12 19.46C12 19.46 18.88 19.46 20.6 19C21.0708 18.8668 21.498 18.6118 21.8387 18.2606C22.1793 17.9094 22.4212 17.4746 22.54 17C22.8524 15.2676 23.0063 13.5103 23 11.75C23.0112 9.96295 22.8573 8.1787 22.54 6.42Z" stroke="#5c3d2e" class="group-hover:stroke-white transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9.75 15.02L15.5 11.75L9.75 8.48V15.02Z" stroke="#5c3d2e" class="group-hover:stroke-white transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                YouTube
               </a>
             </div>
           </div>
@@ -289,48 +363,57 @@
           <div class="rounded-2xl overflow-hidden border border-amber-100 h-56 relative" style="background: linear-gradient(135deg, #f5ede6, #ede0d6, #e0d0c0);">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
               <div class="w-14 h-14 bg-brown rounded-full flex items-center justify-center mb-3 shadow-lg">
-                <i class="fa-solid fa-location-dot text-white text-xl"></i>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C8.134 2 5 5.134 5 9C5 13.5 12 22 12 22C12 22 19 13.5 19 9C19 5.134 15.866 2 12 2Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+                  <circle cx="12" cy="9" r="2.8" stroke="white" stroke-width="1.6"/>
+                </svg>
               </div>
               <h4 class="font-heading text-lg font-semibold text-brown mb-1">Lumière Skin Clinic</h4>
               <p class="text-sm text-muted mb-3">123, Skin Street, Nashik, Maharashtra</p>
-              <a href="https://maps.google.com" target="_blank" class="btn-primary text-sm px-5 py-2"><i class="fa-solid fa-map mr-2"></i>Open in Google Maps</a>
+              <a href="https://maps.google.com" target="_blank" class="btn-primary text-sm px-5 py-2 flex items-center gap-2 justify-center">
+                <svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 1C5.686 1 3 3.686 3 7C3 11.5 9 17 9 17C9 17 15 11.5 15 7C15 3.686 12.314 1 9 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                  <circle cx="9" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/>
+                </svg>
+                Open in Google Maps
+              </a>
             </div>
           </div>
         </div>
 
-        <!-- FORM SIDE -->
-        <div class="fade-in" style="transition-delay:0.15s">
-          <div class="bg-white rounded-3xl p-8 md:p-10 border border-amber-100 shadow-xl">
-            <h3 class="font-heading text-2xl font-semibold text-brown mb-2">Book an Appointment</h3>
-            <p class="text-muted text-sm mb-6">Fill in the details below and we'll confirm your slot within 24 hours. First consultation is free!</p>
+        <!-- FORM SIDE — inline -->
+        <div class="reveal-right" style="transition-delay:0.15s">
+          <div class="bg-white rounded-3xl p-7 md:p-9 border border-amber-100 shadow-xl">
+            <h3 class="font-heading text-2xl font-semibold text-brown mb-1">Book an Appointment</h3>
+            <p class="text-muted text-sm mb-6">Fill in the details — first consultation is free!</p>
 
             <!-- Success Message -->
             <div class="success-banner mb-6" id="successMsg">
-              <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="fa-solid fa-check text-white text-sm"></i>
+              <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background:#5c3d2e;">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3.5 9L7 12.5L14.5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <div>
-                <div class="font-semibold text-green-800 text-sm">Appointment Request Received!</div>
-                <div class="text-green-700 text-xs mt-0.5">We'll contact you shortly to confirm your appointment. Thank you!</div>
+                <div class="font-semibold text-sm" style="color:#2c5f2e;">Appointment Request Received!</div>
+                <div class="text-xs mt-0.5" style="color:#3a7a3c;">We'll contact you shortly to confirm. Thank you!</div>
               </div>
             </div>
 
             <div id="bookingForm">
-              <div class="mb-5">
+              <div class="mb-4">
                 <label class="form-label">Full Name <span class="text-rose-400">*</span></label>
                 <input type="text" id="fname" class="form-input" placeholder="Your full name"/>
               </div>
-              <div class="grid grid-cols-2 gap-4 mb-5">
+              <div class="grid grid-cols-2 gap-3 mb-4 form-2col">
                 <div>
-                  <label class="form-label">Phone Number <span class="text-rose-400">*</span></label>
+                  <label class="form-label">Phone <span class="text-rose-400">*</span></label>
                   <input type="tel" id="fphone" class="form-input" placeholder="+91 XXXXX XXXXX"/>
                 </div>
                 <div>
-                  <label class="form-label">Email Address</label>
+                  <label class="form-label">Email</label>
                   <input type="email" id="femail" class="form-input" placeholder="you@email.com"/>
                 </div>
               </div>
-              <div class="mb-5">
+              <div class="mb-4">
                 <label class="form-label">Treatment of Interest <span class="text-rose-400">*</span></label>
                 <select id="fservice" class="form-input">
                   <option value="">Select a treatment...</option>
@@ -351,7 +434,7 @@
                   <option>General Consultation</option>
                 </select>
               </div>
-              <div class="grid grid-cols-2 gap-4 mb-5">
+              <div class="grid grid-cols-2 gap-3 mb-4 form-2col">
                 <div>
                   <label class="form-label">Preferred Date</label>
                   <input type="date" id="fdate" class="form-input"/>
@@ -363,7 +446,6 @@
                     <option>10:00 AM</option>
                     <option>11:00 AM</option>
                     <option>12:00 PM</option>
-                    <option>1:00 PM</option>
                     <option>2:00 PM</option>
                     <option>3:00 PM</option>
                     <option>4:00 PM</option>
@@ -374,31 +456,23 @@
               </div>
               <div class="mb-5">
                 <label class="form-label">Skin Concerns / Message</label>
-                <textarea id="fmessage" class="form-input" rows="4" placeholder="Tell us about your skin concerns, questions, or any medical history we should know about..."></textarea>
+                <textarea id="fmessage" class="form-input" rows="3" placeholder="Tell us about your skin concerns or any questions..."></textarea>
               </div>
-              <!-- How did you hear -->
-              <div class="mb-6">
-                <label class="form-label">How did you hear about us?</label>
-                <select id="fhear" class="form-input">
-                  <option value="">Select...</option>
-                  <option>Google Search</option>
-                  <option>Instagram</option>
-                  <option>Facebook</option>
-                  <option>Friend / Family Referral</option>
-                  <option>Doctor Referral</option>
-                  <option>YouTube</option>
-                  <option>Walk-in</option>
-                </select>
-              </div>
-              <!-- Agreement -->
-              <div class="flex items-start gap-3 mb-6">
+              <div class="flex items-start gap-3 mb-5">
                 <input type="checkbox" id="fagree" class="mt-1 w-4 h-4 accent-amber-700 flex-shrink-0"/>
-                <label for="fagree" class="text-xs text-muted leading-relaxed">I agree to be contacted by Lumière Skin Clinic via phone/WhatsApp regarding my appointment request. I understand this is not a confirmed booking until validated by the clinic team.</label>
+                <label for="fagree" class="text-xs text-muted leading-relaxed">I agree to be contacted by Lumière Skin Clinic via phone/WhatsApp. I understand this is not a confirmed booking until validated by the clinic.</label>
               </div>
-              <button id="submitBtn" onclick="submitForm()" class="btn-primary w-full text-center text-base py-4">
-                <i class="fa-regular fa-calendar-check mr-2"></i>Book My Appointment
+              <button onclick="submitForm()" class="btn-primary w-full text-center text-base py-4 flex items-center justify-center gap-2">
+                <svg width="17" height="17" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="2" width="16" height="18" rx="3" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M7 7H15M7 11H15M7 15H11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Book My Appointment
               </button>
-              <p class="text-xs text-center text-muted mt-4"><i class="fa-solid fa-lock mr-1 text-green-500"></i>Your information is secure and will never be shared with third parties.</p>
+              <p class="text-xs text-center text-muted mt-4 flex items-center justify-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 18 18" fill="none"><rect x="4" y="8" width="10" height="8" rx="2" stroke="#8a7a70" stroke-width="1.4"/><path d="M6 8V6C6 4.343 7.343 3 9 3C10.657 3 12 4.343 12 6V8" stroke="#8a7a70" stroke-width="1.4" stroke-linecap="round"/></svg>
+                Your information is secure and will never be shared.
+              </p>
             </div>
           </div>
         </div>
@@ -410,14 +484,14 @@
   <!-- FAQ -->
   <section class="py-24 bg-cream">
     <div class="max-w-3xl mx-auto px-6">
-      <div class="text-center mb-14">
+      <div class="text-center mb-14 reveal">
         <span class="section-tag">Common Questions</span>
-        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">Frequently Asked <em class="text-gold italic">Questions</em></h2>
+        <h2 class="font-heading text-4xl font-bold text-charcoal mt-3 mb-4">Frequently Asked <span class="text-gold font-heading">Questions</span></h2>
         <p class="text-muted max-w-lg mx-auto">Everything you need to know before your first visit.</p>
       </div>
       <div class="flex flex-col gap-3">
 
-        <div class="faq-item fade-in">
+        <div class="faq-item reveal">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Do I need to book an appointment in advance?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -425,7 +499,7 @@
           <div class="faq-answer">We recommend booking at least 2–3 days in advance to secure your preferred time slot. However, we do accommodate walk-ins based on daily availability. Call us first to check availability before walking in.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.05s">
+        <div class="faq-item reveal" style="transition-delay:0.05s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Is the first consultation completely free?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -433,7 +507,7 @@
           <div class="faq-answer">Yes! Your first skin analysis consultation with our dermatologist is completely free of charge. During this session, we'll assess your skin type, Fitzpatrick tone, current concerns, and recommend the most suitable, cost-effective treatment plan tailored specifically for you.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.1s">
+        <div class="faq-item reveal" style="transition-delay:0.1s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>How many sessions will I typically need?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -441,7 +515,7 @@
           <div class="faq-answer">The number of sessions varies based on your skin concern and chosen treatment. For example, laser resurfacing typically requires 3–6 sessions spaced 4 weeks apart, while HydraFacial results are visible after a single session. Our dermatologist will give you a realistic treatment timeline during your free consultation.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.15s">
+        <div class="faq-item reveal" style="transition-delay:0.15s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Are treatments safe for Indian skin tones?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -449,7 +523,7 @@
           <div class="faq-answer">Absolutely. We specialize in treating Fitzpatrick types III–VI skin tones, which are most common in Indian patients. We use FDA-approved devices and conduct mandatory patch tests before any laser or chemical procedure. Our doctors have extensive experience with Indian skin and understand the unique risks such as post-inflammatory hyperpigmentation.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.2s">
+        <div class="faq-item reveal" style="transition-delay:0.2s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Is there any downtime after treatments?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -457,7 +531,7 @@
           <div class="faq-answer">Downtime varies by treatment. Non-invasive treatments like HydraFacial and Oxygen Facial have zero downtime — you can return to daily activities immediately. Chemical peels may involve mild peeling for 3–5 days. Fractional laser may require 5–7 days of recovery. We'll explain detailed post-treatment care protocols for every procedure.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.25s">
+        <div class="faq-item reveal" style="transition-delay:0.25s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Do you offer EMI or payment plans?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -465,7 +539,7 @@
           <div class="faq-answer">Yes! We offer 0% interest EMI options on selected treatment packages for up to 6 months through our banking partners. We accept all major credit/debit cards, UPI, net banking, and cash. Ask our front desk team about current EMI plans and package discounts during your consultation.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.3s">
+        <div class="faq-item reveal" style="transition-delay:0.3s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>What should I do to prepare before my treatment?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -473,7 +547,7 @@
           <div class="faq-answer">General preparation includes avoiding direct sun exposure for 48–72 hours, not waxing or bleaching the area 1 week prior, removing makeup before your appointment, and staying hydrated. Specific preparations vary by treatment — we will send you detailed pre-care instructions via WhatsApp after booking your appointment.</div>
         </div>
 
-        <div class="faq-item fade-in" style="transition-delay:0.35s">
+        <div class="faq-item reveal" style="transition-delay:0.35s">
           <button class="faq-btn" onclick="toggleFaq(this)">
             <span>Do results differ for men vs women?</span>
             <span class="faq-icon text-brown text-sm"><i class="fa-solid fa-plus"></i></span>
@@ -487,78 +561,164 @@
 
   <!-- CTA SECTION -->
   <section class="cta-section py-24">
-    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
       <span class="section-tag">Start Today</span>
       <h2 class="font-heading text-4xl lg:text-5xl font-bold text-charcoal mt-4 mb-5 leading-tight">
-        Start Your Glow-Up <em class="text-gold italic">Today</em>
+        Start Your Glow-Up <span class="text-gold font-heading">Today</span>
       </h2>
       <p class="text-muted text-lg mb-8 max-w-2xl mx-auto leading-relaxed">Call us, WhatsApp us, or book online. Our certified skin experts are ready to help you look and feel your absolute best — starting from your very first appointment.</p>
       <div class="flex flex-wrap gap-4 justify-center">
-        <a href="tel:+919876543210" class="btn-primary text-base px-8 py-4">
-          <i class="fa-solid fa-phone mr-2"></i>Call: +91 98765 43210
+        <a href="tel:+919876543210" class="btn-primary text-base px-8 py-4 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 3.5C3.5 3.5 5.3 3 6.7 5.3C8.1 7.5 7.5 9 7.5 9L5.7 11.2C5.7 11.2 7.5 15 11.5 17L13.7 15.2C13.7 15.2 15 14.8 17.3 16.2C19.6 17.5 19 19.5 19 19.5C19 19.5 18 21.5 15.5 20.5C13 19.5 5 15 2.5 8.5C1.3 5.5 3.5 3.5 3.5 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          Call: +91 98765 43210
         </a>
-        <a href="https://wa.me/919876543210" target="_blank" class="flex items-center gap-2 bg-green-500 text-white text-base font-semibold px-8 py-4 rounded-full hover:bg-green-600 transition-colors">
-          <i class="fa-brands fa-whatsapp text-lg"></i>WhatsApp Us
+        <a href="https://wa.me/919876543210" target="_blank" class="flex items-center gap-2 bg-brown text-white text-base font-semibold px-8 py-4 rounded-full hover:bg-gold transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.477 2 12C2 13.776 2.474 15.441 3.293 16.877L2 22L7.293 20.744C8.695 21.538 10.296 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M9 9.5C9 9.5 8.5 11 10 13C11.5 15 13.5 16 13.5 16L15 14.5C15 14.5 16 14.8 17 15.5C18 16.2 17.5 17 17.5 17C17.5 17 16.5 18.5 14 17C11.5 15.5 9 12 9 10.5C9 10.5 8.8 9.5 9 9.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          WhatsApp Us
         </a>
       </div>
       <div class="flex items-center justify-center gap-8 mt-10 text-sm text-muted flex-wrap">
-        <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> Free Consultation</div>
-        <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> No obligation</div>
-        <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> Certified Dermatologists</div>
+        <div class="flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8.5" stroke="#b8935a" stroke-width="1.6"/>
+            <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="#b8935a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Free Consultation
+        </div>
+        <div class="flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8.5" stroke="#b8935a" stroke-width="1.6"/>
+            <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="#b8935a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          No obligation
+        </div>
+        <div class="flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8.5" stroke="#b8935a" stroke-width="1.6"/>
+            <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="#b8935a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Certified Dermatologists
+        </div>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-charcoal py-16 text-white/60">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid md:grid-cols-4 gap-12 pb-12 border-b border-white/10">
+  <footer style="background: #1a1008;">
+    <!-- Main Footer -->
+    <div class="max-w-6xl mx-auto px-6 pt-14 pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10" style="border-bottom: 1px solid rgba(184,147,90,0.18);">
+
+        <!-- Col 1: Brand -->
         <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 flex items-center justify-center"><i class="fa-solid fa-spa text-white text-sm"></i></div>
-            <span class="font-heading text-xl font-semibold text-white">Lumière <em class="text-gold italic">Skin</em></span>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #b8935a, #8a6a3a);">
+              <i class="fa-solid fa-spa text-white text-base"></i>
+            </div>
+            <div>
+              <div style="font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:#fff; line-height:1.1;">Lumière <em style="color:#b8935a; font-style:italic;">Skin</em></div>
+              <div style="font-size:0.7rem; color:rgba(255,255,255,0.45); letter-spacing:0.06em; margin-top:1px;">Advanced Dermatology Care</div>
+            </div>
           </div>
-          <p class="text-sm leading-relaxed mb-6">Where science meets beauty. Your journey to radiant, healthy skin starts here.</p>
-          <div class="flex gap-3">
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-youtube text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+          <p style="font-size:0.82rem; color:rgba(255,255,255,0.5); line-height:1.75; margin-bottom:20px;">Your trusted skin clinic for comprehensive dermatology care. Combining compassionate care with cutting-edge technology since 2012.</p>
+          <!-- Social Icons -->
+          <div class="flex gap-2">
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a href="https://wa.me/919876543210" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:0.85rem;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.background='#b8935a';this.style.borderColor='#b8935a';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
           </div>
         </div>
+
+        <!-- Col 2: Quick Links -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Quick Links</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="index.html" class="hover:text-gold-light transition-colors">Home</a></li>
-            <li><a href="about.html" class="hover:text-gold-light transition-colors">About Us</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Services</a></li>
-            <li><a href="gallery.html" class="hover:text-gold-light transition-colors">Gallery</a></li>
-            <li><a href="contact.html" class="hover:text-gold-light transition-colors">Contact</a></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Quick Links</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li><a href="index.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Home</a></li>
+            <li><a href="about.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> About Us</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Services</a></li>
+            <li><a href="gallery.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Gallery</a></li>
+            <li><a href="contact.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Contact</a></li>
+            <li><a href="contact.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Book Appointment</a></li>
           </ul>
         </div>
+
+        <!-- Col 3: Our Services -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Our Services</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">HydraFacial</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Laser Treatment</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Chemical Peels</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Botox & Fillers</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">PRP Therapy</a></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Our Services</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> HydraFacial</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Laser Treatment</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Chemical Peels</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Botox &amp; Fillers</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> PRP Therapy</a></li>
+            <li><a href="services.html" style="font-size:0.84rem;color:rgba(255,255,255,0.55);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;" onmouseover="this.style.color='#b8935a'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><span style="color:#b8935a;font-size:0.7rem;">›</span> Acne Solutions</a></li>
           </ul>
         </div>
+
+        <!-- Col 4: Contact Us -->
         <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Contact Info</h5>
-          <ul class="space-y-4 text-sm">
-            <li class="flex gap-3"><i class="fa-solid fa-location-dot text-gold mt-0.5 flex-shrink-0"></i><span>123, Skin Street, Nashik, MH – 422001</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-phone text-gold mt-0.5 flex-shrink-0"></i><span>+91 98765 43210</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-envelope text-gold mt-0.5 flex-shrink-0"></i><span>hello@lumiereskin.com</span></li>
-            <li class="flex gap-3"><i class="fa-regular fa-clock text-gold mt-0.5 flex-shrink-0"></i><span>Mon–Sat: 9 AM – 7 PM<br/>Sun: 10 AM – 2 PM</span></li>
+          <h5 style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b8935a;margin-bottom:18px;">Contact Us</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;">
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-phone" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Phone</div>
+                <a href="tel:+919876543210" style="font-size:0.84rem;color:rgba(255,255,255,0.7);text-decoration:none;">+91 98765 43210</a>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-envelope" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Email</div>
+                <a href="mailto:hello@lumiereskin.com" style="font-size:0.84rem;color:rgba(255,255,255,0.7);text-decoration:none;">hello@lumiereskin.com</a>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-solid fa-location-dot" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Address</div>
+                <span style="font-size:0.84rem;color:rgba(255,255,255,0.7);">123, Skin Street, Near City Hospital,<br/>Nashik, Maharashtra – 422001</span>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:32px;height:32px;border-radius:8px;background:rgba(184,147,90,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+                <i class="fa-regular fa-clock" style="color:#b8935a;font-size:0.8rem;"></i>
+              </div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2px;">Hours</div>
+                <span style="font-size:0.84rem;color:rgba(255,255,255,0.7);">Mon–Sat: 9 AM – 7 PM</span><br/>
+                <span style="font-size:0.82rem;color:#b8935a;">Sun: Emergency Only</span>
+              </div>
+            </li>
           </ul>
         </div>
+
       </div>
-      <div class="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
-        <p>&copy; 2025 Lumière Skin Clinic. All Rights Reserved.</p>
-        <p>Designed with care for your skin journey</p>
+
+      <!-- Bottom Bar -->
+      <div style="padding-top:18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;">
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin:0;">&copy; 2025 Lumière Skin Clinic. All rights reserved</p>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin:0;">Designed by <a href="#" style="color:#b8935a;text-decoration:none;font-weight:600;">WebCultivate Software Solutions</a></p>
       </div>
     </div>
   </footer>
@@ -566,6 +726,7 @@
   <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn"><i class="fa-brands fa-whatsapp text-white text-2xl"></i></a>
 
   <script>
+
     // Navbar
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => { navbar.classList.toggle('navbar-scrolled', window.scrollY > 20); });
@@ -618,11 +779,11 @@
     }
     window.submitForm = submitForm;
 
-    // Fade in
-    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    // Scroll reveal
-    const revealObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } }); }, { threshold: 0.1 });
+    // Unified scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObs.observe(el));
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   </script>
 </body>

@@ -27,14 +27,24 @@
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #faf7f2; color: #2c2420; overflow-x: hidden; }
     html { overflow-x: hidden; }
+    *, *::before, *::after { box-sizing: border-box; }
     h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
     .navbar-scrolled { box-shadow: 0 4px 30px rgba(80,40,20,0.1); }
     .nav-link { position: relative; padding: 6px 0 !important; margin: 0 16px; background: transparent !important; border-radius: 0 !important; }
     .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #b8935a; transition: width 0.3s; border-radius: 2px; }
     .nav-link:hover::after, .nav-link.active::after { width: 100%; }
     .nav-link:hover { color: #5c3d2e !important; background: transparent !important; }
-    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Scroll Reveal */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.revealed { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.93); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.revealed { opacity: 1; transform: scale(1); }
+
     .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #b8935a; background: #e8d5b7; padding: 6px 18px; border-radius: 100px; margin-bottom: 14px; }
     .btn-primary { display: inline-block; background: #5c3d2e; color: #faf7f2; padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; transition: all 0.25s; }
     .btn-primary:hover { background: #b8935a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(92,61,46,0.3); }
@@ -57,6 +67,7 @@
     .drawer-nav a.active { font-weight:600; }
     .drawer-nav a i { width:18px; text-align:center; color:#b8935a; }
     .drawer-footer { padding:16px; border-top:1px solid #f0e6d8; }
+
     /* ---- TOPBAR ---- */
     .topbar { background: #5c3d2e; color: #e8d5b7; font-size: 0.78rem; padding: 8px 0; }
     .topbar a { color: #e8d5b7; text-decoration: none; transition: color 0.2s; }
@@ -65,44 +76,125 @@
     .topbar-left { display: flex; align-items: center; gap: 20px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px){ .topbar-inner { justify-content: center; } .topbar-right { display: none; } }
-    @media (max-width: 768px) { .mobile-menu { display: none; } .mobile-menu.open { display: flex; } }
 
     /* Gallery Masonry Grid */
     .gallery-grid { columns: 3; column-gap: 16px; }
     @media(max-width: 1024px){ .gallery-grid { columns: 2; } }
-    @media(max-width: 640px){ .gallery-grid { columns: 1; } }
+    @media(max-width: 540px){ .gallery-grid { columns: 1; } }
     .gallery-item { break-inside: avoid; margin-bottom: 16px; }
-    .g-card { position: relative; border-radius: 16px; overflow: hidden; cursor: pointer; display: block; }
-    .g-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+
+    /* Gallery Card */
+    .g-card { position: relative; border-radius: 16px; overflow: hidden; cursor: pointer; display: block; background: #f0e6d8; }
+    .g-card img {
+      width: 100%; display: block;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      /* Force images to always show */
+      min-height: 180px;
+      background: #e8d5b7;
+    }
     .g-card:hover img { transform: scale(1.06); }
-    .g-overlay { position: absolute; inset: 0; background: rgba(44,36,32,0); transition: background 0.3s; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; padding: 16px; }
+    .g-overlay {
+      position: absolute; inset: 0;
+      background: rgba(44,36,32,0);
+      transition: background 0.3s;
+      display: flex; flex-direction: column;
+      align-items: flex-end; justify-content: flex-end;
+      padding: 16px;
+    }
     .g-card:hover .g-overlay { background: rgba(44,36,32,0.55); }
-    .g-overlay-content { opacity: 0; transform: translateY(8px); transition: all 0.3s; color: white; text-align: right; }
+    .g-overlay-content {
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.3s; color: white; text-align: right;
+    }
     .g-card:hover .g-overlay-content { opacity: 1; transform: translateY(0); }
-    .g-tag { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.92); color: #5c3d2e; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; }
+    .g-tag {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(255,255,255,0.92); color: #5c3d2e;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 100px;
+    }
 
     /* Filter Buttons */
-    .filter-btn { background: white; border: 1.5px solid #e8d5b7; color: #8a7a70; padding: 9px 22px; border-radius: 100px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+    .filter-btn { background: white; border: 1.5px solid #e8d5b7; color: #8a7a70; padding: 9px 20px; border-radius: 100px; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap; }
     .filter-btn.active, .filter-btn:hover { background: #5c3d2e; color: #faf7f2; border-color: #5c3d2e; }
 
-    /* Lightbox */
-    .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15,10,8,0.95); align-items: center; justify-content: center; }
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(10,7,5,0.96);
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
     .lightbox.open { display: flex; }
-    .lb-img { max-width: 85vw; max-height: 85vh; border-radius: 16px; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
-    .lb-close { position: absolute; top: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-    .lb-close:hover { background: #b8935a; border-color: #b8935a; }
-    .lb-caption { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: white; text-align: center; }
-    .lb-caption h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; }
-    .lb-caption p { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
 
-    /* Hidden items */
-    .gallery-item.hidden-item { display: none; }
+    .lb-inner {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: min(90vw, 900px);
+      width: 100%;
+    }
+
+    .lb-img {
+      width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      display: block;
+    }
+
+    /* Caption BELOW the image — never overlaps */
+    .lb-caption {
+      margin-top: 18px;
+      text-align: center;
+      color: white;
+      width: 100%;
+    }
+    .lb-caption h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; margin: 0 0 4px; }
+    .lb-caption p { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin: 0; }
+
+    .lb-close {
+      position: fixed; top: 20px; right: 20px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8); font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 10000;
+    }
+    .lb-close:hover { background: rgba(0,0,0,0.85); }
+
+    /* Lightbox nav arrows */
+    .lb-prev, .lb-next {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8); font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 10000;
+    }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+    .lb-prev:hover, .lb-next:hover { background: rgba(0,0,0,0.85); }
+    @media(max-width:540px){ .lb-prev { left: 8px; } .lb-next { right: 8px; } }
 
     .cta-section { background: linear-gradient(135deg, #fdf6f0 0%, #f5ede6 50%, #ede0d6 100%); position: relative; overflow: hidden; }
     .cta-section::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(184,147,90,0.15), transparent); border-radius: 50%; }
     .cta-section::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,160,154,0.15), transparent); border-radius: 50%; }
-    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform 0.2s; }
+    .whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 997; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform 0.2s; }
     .whatsapp-btn:hover { transform: scale(1.1); }
+
+    /* Mobile responsive */
+    @media(max-width:640px){
+      .lb-img { max-height: 60vh; border-radius: 10px; }
+      .lb-caption h4 { font-size: 0.95rem; }
+      section { overflow-x: hidden; }
+      /* Prevent horizontal overflow from slide animations */
+      .reveal-left, .reveal-right { transform: translateY(28px) !important; }
+      .reveal-left.revealed, .reveal-right.revealed { transform: translateY(0) !important; }
+    }
   </style>
 </head>
 <body>
@@ -128,7 +220,7 @@
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-sm"></i>
         </div>
-        <span class="font-heading text-2xl font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span class="font-heading text-2xl font-semibold text-brown">Lumière <span class="text-gold font-heading">Skin</span></span>
       </a>
       <ul class="hidden md:flex items-center">
         <li><a href="index.html" class="nav-link text-sm font-medium text-muted transition-colors">Home</a></li>
@@ -153,7 +245,7 @@
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-xs"></i>
         </div>
-        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <em class="text-gold italic">Skin</em></span>
+        <span style="font-family:'Playfair Display',serif" class="text-base font-semibold text-brown">Lumière <span class="text-gold font-heading">Radiant Skin</span></span>
       </div>
       <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
     </div>
@@ -171,10 +263,10 @@
 
   <!-- PAGE HERO -->
   <section class="relative pt-24 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 100%);">
-    <div class="max-w-3xl mx-auto px-6 relative z-10 fade-in">
+    <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
       <span class="section-tag"><i class="fa-solid fa-images mr-1"></i> Transformations</span>
       <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight">
-        Our <em class="text-gold italic">Gallery</em>
+        Our <span class="text-gold font-heading">Gallery</span> 
       </h1>
       <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto">Real results from real people. Witness the transformative power of expert skin care — before and after treatments across all our specialties.</p>
     </div>
@@ -185,9 +277,9 @@
     <div class="max-w-6xl mx-auto px-6">
 
       <!-- Filters -->
-      <div class="flex flex-wrap gap-3 justify-center mb-12">
+      <div class="flex flex-wrap gap-3 justify-center mb-12 reveal">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="facial">Facial Treatments</button>
+        <button class="filter-btn" data-filter="facial">Facial</button>
         <button class="filter-btn" data-filter="laser">Laser</button>
         <button class="filter-btn" data-filter="acne">Acne</button>
         <button class="filter-btn" data-filter="antiaging">Anti-Aging</button>
@@ -198,211 +290,130 @@
       <!-- Masonry Grid -->
       <div class="gallery-grid" id="galleryGrid">
 
-        <!-- Facial -->
-        <div class="gallery-item fade-in" data-category="facial">
-          <div class="g-card" data-title="HydraFacial Result" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="HydraFacial Result" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">HydraFacial Result</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="facial">
+          <div class="g-card" data-title="HydraFacial Result" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="HydraFacial Result"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">HydraFacial Result</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Facial</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="clinic" style="transition-delay:0.05s">
-          <div class="g-card" data-title="Our Premium Clinic Interior" data-category="Clinic" data-src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80" alt="Clinic Interior" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Premium Clinic Interior</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="clinic" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Premium Clinic Interior" data-category="Clinic" data-src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80" alt="Clinic Interior"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Premium Clinic Interior</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Clinic</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="facial" style="transition-delay:0.1s">
-          <div class="g-card" data-title="Radiant Skin Treatment" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&q=80" alt="Radiant Skin" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Radiant Skin Result</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="facial" style="transition-delay:0.12s">
+          <div class="g-card" data-title="Radiant Skin Treatment" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&q=80" alt="Radiant Skin"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Radiant Skin Result</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Facial</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="laser" style="transition-delay:0.15s">
-          <div class="g-card" data-title="Laser Skin Resurfacing" data-category="Laser" data-src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="Laser Treatment" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Laser Resurfacing</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="laser" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Laser Skin Resurfacing" data-category="Laser Treatment" data-src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="Laser Treatment"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Laser Resurfacing</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Laser</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="facial" style="transition-delay:0.2s">
-          <div class="g-card" data-title="Skin Brightening Therapy" data-category="Facial" data-src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="Skin Care Products" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Skin Brightening</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="facial" style="transition-delay:0.12s">
+          <div class="g-card" data-title="Skin Brightening Therapy" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&q=80" alt="Skin Brightening"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Skin Brightening</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Facial</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="clinic" style="transition-delay:0.25s">
-          <div class="g-card" data-title="Treatment Room" data-category="Clinic" data-src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80" alt="Treatment Room" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Treatment Room</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="clinic" style="transition-delay:0.18s">
+          <div class="g-card" data-title="Treatment Room" data-category="Clinic" data-src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80" alt="Treatment Room"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Treatment Room</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Clinic</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="antiaging" style="transition-delay:0.1s">
-          <div class="g-card" data-title="Anti-Aging Botox Result" data-category="Anti-Aging" data-src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Anti-Aging Result" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Anti-Aging Results</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="antiaging" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Anti-Aging Results" data-category="Anti-Aging" data-src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Anti-Aging Result"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Anti-Aging Results</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Anti-Aging</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="hair" style="transition-delay:0.15s">
-          <div class="g-card" data-title="PRP Hair Restoration" data-category="Hair" data-src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Hair Restoration" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">PRP Hair Restoration</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="hair" style="transition-delay:0.12s">
+          <div class="g-card" data-title="PRP Hair Restoration" data-category="Hair Treatment" data-src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Hair Restoration"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">PRP Hair Restoration</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Hair</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="acne" style="transition-delay:0.2s">
-          <div class="g-card" data-title="Acne Treatment Progress" data-category="Acne" data-src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80" alt="Acne Treatment" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Acne Treatment Progress</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="acne" style="transition-delay:0.18s">
+          <div class="g-card" data-title="Acne Treatment Progress" data-category="Acne Treatment" data-src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80" alt="Acne Treatment"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Acne Treatment Progress</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Acne</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="laser" style="transition-delay:0.05s">
-          <div class="g-card" data-title="Pigmentation Removal" data-category="Laser" data-src="https://images.unsplash.com/photo-1607008829749-c0f284a49fc4?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1607008829749-c0f284a49fc4?w=600&q=80" alt="Pigmentation Laser" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Pigmentation Removal</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="laser" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Pigmentation Removal" data-category="Laser Treatment" data-src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80" alt="Pigmentation Laser"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Pigmentation Removal</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Laser</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="clinic" style="transition-delay:0.1s">
-          <div class="g-card" data-title="Consultation Room" data-category="Clinic" data-src="https://images.unsplash.com/photo-1591702657551-dea1c55b5f5c?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1591702657551-dea1c55b5f5c?w=600&q=80" alt="Consultation Room" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Expert Consultation</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="clinic" style="transition-delay:0.12s">
+          <div class="g-card" data-title="Expert Consultation" data-category="Clinic" data-src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80" alt="Consultation Room"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Expert Consultation</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Clinic</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="antiaging" style="transition-delay:0.15s">
-          <div class="g-card" data-title="Dermal Filler Results" data-category="Anti-Aging" data-src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80" alt="Dermal Filler" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Dermal Filler Results</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="antiaging" style="transition-delay:0.18s">
+          <div class="g-card" data-title="Dermal Filler Results" data-category="Anti-Aging" data-src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=600&q=80" alt="Dermal Filler"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Dermal Filler Results</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Anti-Aging</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="facial" style="transition-delay:0.2s">
-          <div class="g-card" data-title="Glow Treatment Result" data-category="Facial" data-src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600&q=80" alt="Glow Treatment" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Oxygen Facial Glow</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="facial" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Oxygen Facial Glow" data-category="Facial Treatment" data-src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600&q=80" alt="Glow Treatment"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Oxygen Facial Glow</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Facial</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="acne" style="transition-delay:0.1s">
-          <div class="g-card" data-title="Clear Skin Journey" data-category="Acne" data-src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=600&q=80" alt="Clear Skin" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Clear Skin Journey</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="acne" style="transition-delay:0.12s">
+          <div class="g-card" data-title="Clear Skin Journey" data-category="Acne Treatment" data-src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=600&q=80" alt="Clear Skin"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Clear Skin Journey</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Acne</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="hair" style="transition-delay:0.15s">
-          <div class="g-card" data-title="Hair Growth Results – PRP" data-category="Hair" data-src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80" alt="Hair Growth PRP" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Hair Growth PRP</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="hair" style="transition-delay:0.18s">
+          <div class="g-card" data-title="Hair Growth PRP" data-category="Hair Treatment" data-src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80" alt="Hair Growth PRP"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Hair Growth PRP</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Hair</div>
           </div>
         </div>
 
-        <div class="gallery-item fade-in" data-category="clinic" style="transition-delay:0.2s">
-          <div class="g-card" data-title="Reception & Lounge" data-category="Clinic" data-src="https://images.unsplash.com/photo-1631216804595-1e6dd2ce1059?w=800&q=80">
-            <img src="https://images.unsplash.com/photo-1631216804595-1e6dd2ce1059?w=600&q=80" alt="Reception Lounge" loading="lazy"/>
-            <div class="g-overlay">
-              <div class="g-overlay-content">
-                <div class="text-sm font-semibold">Reception & Lounge</div>
-                <div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div>
-              </div>
-            </div>
+        <div class="gallery-item reveal" data-category="clinic" style="transition-delay:0.06s">
+          <div class="g-card" data-title="Reception & Lounge" data-category="Clinic" data-src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1200&q=85">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80" alt="Reception Lounge"/>
+            <div class="g-overlay"><div class="g-overlay-content"><div class="text-sm font-semibold">Reception &amp; Lounge</div><div class="text-xs opacity-70 mt-1"><i class="fa-solid fa-magnifying-glass mr-1"></i>View Photo</div></div></div>
             <div class="g-tag">Clinic</div>
           </div>
         </div>
@@ -414,15 +425,19 @@
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox">
     <button class="lb-close" id="lbClose"><i class="fa-solid fa-xmark"></i></button>
-    <img id="lbImg" src="" alt="" class="lb-img"/>
-    <div class="lb-caption" id="lbCaption">
-      <h4 id="lbTitle"></h4>
-      <p id="lbCategory"></p>
+    <button class="lb-prev" id="lbPrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="lb-next" id="lbNext"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="lb-inner">
+      <img id="lbImg" src="" alt="" class="lb-img"/>
+      <div class="lb-caption">
+        <h4 id="lbTitle"></h4>
+        <p id="lbCategory"></p>
+      </div>
     </div>
   </div>
 
   <!-- CLIENT COUNT BAND -->
-  <section class="py-16 bg-brown text-center">
+  <section class="py-14 bg-brown text-center reveal">
     <div class="max-w-4xl mx-auto px-6">
       <p class="font-heading text-2xl text-white mb-2">Join <span class="text-gold">8,000+</span> satisfied clients who've already transformed their skin</p>
       <p class="text-white/60 mb-8">Every photo you see represents a real person, a real story, and a real transformation by our team.</p>
@@ -434,10 +449,10 @@
 
   <!-- CTA -->
   <section class="cta-section py-24">
-    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
       <span class="section-tag">Book Today</span>
       <h2 class="font-heading text-4xl lg:text-5xl font-bold text-charcoal mt-4 mb-5 leading-tight">
-        Your Transformation <em class="text-gold italic">Starts Here</em>
+        Your Transformation <span class="text-gold font-heading">Starts Here</span>
       </h2>
       <p class="text-muted text-lg mb-8 max-w-2xl mx-auto leading-relaxed">Ready to see your name in our gallery? Join thousands of happy clients and begin your personalized skin transformation journey with expert guidance.</p>
       <div class="flex flex-wrap gap-4 justify-center">
@@ -447,59 +462,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-charcoal py-16 text-white/60">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid md:grid-cols-4 gap-12 pb-12 border-b border-white/10">
-        <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-600 to-amber-400 flex items-center justify-center"><i class="fa-solid fa-spa text-white text-sm"></i></div>
-            <span class="font-heading text-xl font-semibold text-white">Lumière <em class="text-gold italic">Skin</em></span>
-          </div>
-          <p class="text-sm leading-relaxed mb-6">Where science meets beauty. Your journey to radiant, healthy skin starts here.</p>
-          <div class="flex gap-3">
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-youtube text-sm"></i></a>
-            <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-gold hover:border-gold transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
-          </div>
-        </div>
-        <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Quick Links</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="index.html" class="hover:text-gold-light transition-colors">Home</a></li>
-            <li><a href="about.html" class="hover:text-gold-light transition-colors">About Us</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Services</a></li>
-            <li><a href="gallery.html" class="hover:text-gold-light transition-colors">Gallery</a></li>
-            <li><a href="contact.html" class="hover:text-gold-light transition-colors">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Our Services</h5>
-          <ul class="space-y-3 text-sm">
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">HydraFacial</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Laser Treatments</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Botox & Fillers</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">PRP Therapy</a></li>
-            <li><a href="services.html" class="hover:text-gold-light transition-colors">Acne Solutions</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5 class="font-heading text-base font-semibold text-white mb-5">Contact Info</h5>
-          <ul class="space-y-4 text-sm">
-            <li class="flex gap-3"><i class="fa-solid fa-location-dot text-gold mt-0.5 flex-shrink-0"></i><span>123, Skin Street, Nashik, MH – 422001</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-phone text-gold mt-0.5 flex-shrink-0"></i><span>+91 98765 43210</span></li>
-            <li class="flex gap-3"><i class="fa-solid fa-envelope text-gold mt-0.5 flex-shrink-0"></i><span>hello@lumiereskin.com</span></li>
-            <li class="flex gap-3"><i class="fa-regular fa-clock text-gold mt-0.5 flex-shrink-0"></i><span>Mon–Sat: 9 AM – 7 PM</span></li>
-          </ul>
-        </div>
-      </div>
-      <div class="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
-        <p>&copy; 2025 Lumière Skin Clinic. All Rights Reserved.</p>
-        <p>Designed with care for your skin journey</p>
-      </div>
-    </div>
-  </footer>
+  
 
   <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn"><i class="fa-brands fa-whatsapp text-white text-2xl"></i></a>
 
@@ -541,32 +504,88 @@
       });
     });
 
-    // Lightbox
+    // Lightbox with prev/next
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImg');
     const lbTitle = document.getElementById('lbTitle');
     const lbCategory = document.getElementById('lbCategory');
     const lbClose = document.getElementById('lbClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
 
-    document.querySelectorAll('.g-card').forEach(card => {
+    let allCards = [];
+    let currentIdx = 0;
+
+    function buildCardList() {
+      allCards = Array.from(document.querySelectorAll('.gallery-item:not([style*="display: none"]) .g-card'));
+    }
+
+    function openLightbox(idx) {
+      buildCardList();
+      currentIdx = idx;
+      const card = allCards[currentIdx];
+      if (!card) return;
+      lbImg.src = card.dataset.src;
+      lbImg.alt = card.dataset.title;
+      lbTitle.textContent = card.dataset.title;
+      lbCategory.textContent = card.dataset.category;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    function showPrev() {
+      buildCardList();
+      currentIdx = (currentIdx - 1 + allCards.length) % allCards.length;
+      const card = allCards[currentIdx];
+      lbImg.src = card.dataset.src;
+      lbTitle.textContent = card.dataset.title;
+      lbCategory.textContent = card.dataset.category;
+    }
+
+    function showNext() {
+      buildCardList();
+      currentIdx = (currentIdx + 1) % allCards.length;
+      const card = allCards[currentIdx];
+      lbImg.src = card.dataset.src;
+      lbTitle.textContent = card.dataset.title;
+      lbCategory.textContent = card.dataset.category;
+    }
+
+    document.querySelectorAll('.g-card').forEach((card, i) => {
       card.addEventListener('click', () => {
-        lbImg.src = card.dataset.src;
-        lbTitle.textContent = card.dataset.title;
-        lbCategory.textContent = card.dataset.category;
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        buildCardList();
+        const idx = allCards.indexOf(card);
+        openLightbox(idx >= 0 ? idx : 0);
       });
     });
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-    function closeLightbox() { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
 
-    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    // Scroll reveal
-    const revealObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } }); }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    lbNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    // Unified scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObs.observe(el));
   </script>
 </body>
 </html>
