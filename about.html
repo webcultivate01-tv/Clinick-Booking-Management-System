@@ -144,6 +144,10 @@
       .section-h2 { font-size: 1.8rem !important; }
       .stat-num { font-size: 1.9rem; }
       .pillar-num { font-size: 2rem; }
+      
+      /* Better mobile spacing */
+      section { padding: 60px 20px !important; }
+      .max-w-6xl { padding-left: 20px !important; padding-right: 20px !important; }
     }
 
     /* Prevent horizontal overflow on all sections */
@@ -154,6 +158,10 @@
     @media (max-width: 768px) {
       .grid.lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
       .story-img { height: 280px !important; }
+      
+      /* Hide floating badges on mobile */
+      .absolute.-bottom-5,
+      .absolute.top-6 { display: none !important; }
     }
 
     @media (max-width: 480px) {
