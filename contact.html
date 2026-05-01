@@ -74,6 +74,18 @@
     .topbar-left { display: flex; align-items: center; gap: 20px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px){ .topbar-inner { justify-content: center; } .topbar-right { display: none; } }
+
+    @media(max-width:640px) {
+      .topbar-left {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .topbar-left .hidden {
+        display: inline !important;
+      }
+    }
     @media (max-width: 768px) { .mobile-menu { display: none; } .mobile-menu.open { display: flex; } }
     .cta-section { background: linear-gradient(135deg, #fdf6f0 0%, #f5ede6 50%, #ede0d6 100%); position: relative; overflow: hidden; }
     .cta-section::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(184,147,90,0.15), transparent); border-radius: 50%; }
@@ -213,13 +225,13 @@
   </div>
 
   <!-- PAGE HERO -->
-  <section class="relative pt-24 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, #faf7f2 0%, #f5ede6 100%);">
+  <section class="relative pt-16 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, rgba(250,247,242,0.92) 0%, rgba(245,237,230,0.92) 100%), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80'); background-size: cover; background-position: center; background-blend-mode: overlay;">
     <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
       <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> Get in Touch</span>
       <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight hero-title">
         Contact <span class="text-gold font-heading">Us</span>
       </h1>
-      <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto">We're here to help you begin your skin transformation journey. Reach out to book an appointment, ask questions, or simply learn more about our treatments.</p>
+      <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto" style="text-shadow: 0 2px 4px rgba(255,255,255,0.9);">We're here to help you begin your skin transformation journey. Reach out to book an appointment, ask questions, or simply learn more about our treatments.</p>
     </div>
   </section>
 
@@ -606,6 +618,7 @@
         </div>
       </div>
     </div>
+    
   </section>
 
   <!-- FOOTER -->

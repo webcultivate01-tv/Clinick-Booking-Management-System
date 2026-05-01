@@ -278,6 +278,16 @@
       color: #b8935a;
     }
 
+    /* HERO SLIDER BUTTONS */
+    .hero-slider-btn:hover {
+      background: #b8935a !important;
+      border-color: #b8935a !important;
+      transform: translateY(-50%) scale(1.08);
+    }
+    .hero-slider-btn:hover i {
+      color: white !important;
+    }
+
     /* TESTIMONIAL SLIDER */
     @media (max-width: 768px) {
       .testimonial-slider {
@@ -392,6 +402,16 @@
         justify-content: center;
       }
 
+      .topbar-left {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .topbar-left .hidden {
+        display: inline !important;
+      }
+
       .topbar-right {
         display: none;
       }
@@ -479,14 +499,14 @@
 
     /* ---- HERO LAYOUT ---- */
     .hero-section {
-      min-height: calc(100vh - 36px);
+      min-height: auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
       gap: 60px;
       max-width: 1180px;
       margin: 0 auto;
-      padding: 90px 24px 50px;
+      padding: 40px 24px 50px;
       position: relative;
     }
 
@@ -494,7 +514,7 @@
       .hero-section {
         grid-template-columns: 1fr;
         text-align: center;
-        padding: 90px 24px 50px;
+        padding: 40px 24px 50px;
         min-height: auto;
       }
     }
@@ -502,7 +522,7 @@
     @media(max-width:768px) {
       .hero-section {
         gap: 28px;
-        padding: 80px 16px 40px;
+        padding: 30px 16px 40px;
       }
     }
 
@@ -934,23 +954,23 @@
           </a>
         </div>
         <!-- STATS - animated counters -->
-        <div class="flex items-center gap-8 justify-center md:justify-start flex-wrap">
+        <div class="flex items-center gap-6 justify-center md:justify-start flex-wrap">
           <div class="text-center reveal-scale" style="transition-delay:0.3s">
             <div class="stat-num text-3xl font-bold text-brown" data-count="12" data-suffix="+">0+</div>
-            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Years Experience</div>
+            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Years</div>
           </div>
-          <div class="w-px h-12 bg-amber-200 hidden sm:block"></div>
+          <div class="w-px h-10 bg-amber-200 hidden sm:block"></div>
           <div class="text-center reveal-scale" style="transition-delay:0.4s">
             <div class="stat-num text-3xl font-bold text-brown" data-count="8000" data-suffix="+" data-prefix="">0+
             </div>
-            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Happy Clients</div>
+            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Clients</div>
           </div>
-          <div class="w-px h-12 bg-amber-200 hidden sm:block"></div>
+          <div class="w-px h-10 bg-amber-200 hidden sm:block"></div>
           <div class="text-center reveal-scale" style="transition-delay:0.5s">
             <div class="stat-num text-3xl font-bold text-brown" data-count="98" data-suffix="%">0%</div>
-            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Satisfaction Rate</div>
+            <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Satisfaction</div>
           </div>
-          <div class="w-px h-12 bg-amber-200 hidden sm:block"></div>
+          <div class="w-px h-10 bg-amber-200 hidden sm:block"></div>
           <div class="text-center reveal-scale" style="transition-delay:0.6s">
             <div class="stat-num text-3xl font-bold text-brown" data-count="25" data-suffix="+">0+</div>
             <div class="text-xs text-muted mt-1 font-medium uppercase tracking-widest">Treatments</div>
@@ -960,31 +980,53 @@
 
       <!-- Mobile Hero Image (visible only on small screens) -->
       <div class="hero-img-mobile reveal-scale" style="transition-delay:0.2s">
-        <img
-          src="https://plus.unsplash.com/premium_photo-1683147871014-4f2ee5d3230e?w=600&auto=format&fit=crop&q=60"
-          alt="Radiant skin" />
+        <div class="mobile-hero-slider" style="position:relative;height:240px;border-radius:16px;overflow:hidden;">
+          <div class="mobile-hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+            <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="Treatment 1" style="width:100%;height:100%;object-fit:cover;"/>
+          </div>
+          <div class="mobile-hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Treatment 2" style="width:100%;height:100%;object-fit:cover;"/>
+          </div>
+          <div class="mobile-hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80" alt="Treatment 3" style="width:100%;height:100%;object-fit:cover;"/>
+          </div>
+          <div class="mobile-hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+            <img src="https://plus.unsplash.com/premium_photo-1683147871014-4f2ee5d3230e?w=600&q=80" alt="Treatment 4" style="width:100%;height:100%;object-fit:cover;"/>
+          </div>
+          <!-- Mobile Slider Controls -->
+          <button onclick="mobileHeroSliderPrev()" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10;">
+            <i class="fa-solid fa-chevron-left" style="color:#5c3d2e;font-size:14px;"></i>
+          </button>
+          <button onclick="mobileHeroSliderNext()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10;">
+            <i class="fa-solid fa-chevron-right" style="color:#5c3d2e;font-size:14px;"></i>
+          </button>
+        </div>
       </div>
 
       <div class="relative justify-center items-center hidden md:flex reveal-right" style="transition-delay:0.2s">
-        <div class="relative">
-          <div class="w-full max-w-md h-[350px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl hero-img">
-  <img
-    src="https://plus.unsplash.com/premium_photo-1683147871014-4f2ee5d3230e?w=600&auto=format&fit=crop&q=60"
-    alt="Radiant skin"
-    class="w-full h-full object-cover"
-  />
-</div>
-          <!-- Only keep the green natural badge -->
-          <div
-            class="badge-float absolute -bottom-4 -left-8 bg-white rounded-2xl px-5 py-3 shadow-xl flex items-center gap-3">
-            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
-              <i class="fa-solid fa-leaf text-green-600"></i>
+        <div class="relative w-full max-w-md" style="margin-top:-40px;">
+          <!-- Hero Image Slider -->
+          <div class="hero-slider-wrap rounded-3xl overflow-hidden shadow-2xl" style="height:450px;position:relative;">
+            <div class="hero-slide active" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+              <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="Skin Treatment 1" style="width:100%;height:100%;object-fit:cover;"/>
             </div>
-            <div>
-              <div class="text-xs text-muted">Formula</div>
-              <div class="text-sm font-semibold text-charcoal">100% Safe &amp; Natural</div>
+            <div class="hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Skin Treatment 2" style="width:100%;height:100%;object-fit:cover;"/>
+            </div>
+            <div class="hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80" alt="Skin Treatment 3" style="width:100%;height:100%;object-fit:cover;"/>
+            </div>
+            <div class="hero-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;">
+              <img src="https://plus.unsplash.com/premium_photo-1683147871014-4f2ee5d3230e?w=600&q=80" alt="Skin Treatment 4" style="width:100%;height:100%;object-fit:cover;"/>
             </div>
           </div>
+          <!-- Slider Controls - Outside the image -->
+          <button onclick="heroSliderPrev()" class="hero-slider-btn" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:white;border:2px solid #e8d5b7;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:10;transition:all 0.3s;">
+            <i class="fa-solid fa-chevron-left" style="color:#5c3d2e;font-size:18px;"></i>
+          </button>
+          <button onclick="heroSliderNext()" class="hero-slider-btn" style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:white;border:2px solid #e8d5b7;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:10;transition:all 0.3s;">
+            <i class="fa-solid fa-chevron-right" style="color:#5c3d2e;font-size:18px;"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -1375,8 +1417,8 @@
   </section>
 
   <!-- CTA SECTION -->
-  <section class="cta-section py-20" style="overflow:hidden;">
-    <div class="max-w-6xl mx-auto px-6">
+  <section class="cta-section py-20 relative" style="overflow:hidden;">
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <!-- LEFT: Image -->
         <div class="reveal-left flex justify-center lg:justify-start" style="transition-delay:0.05s">
@@ -1386,8 +1428,6 @@
               src="https://plus.unsplash.com/premium_photo-1661486574172-83313dc26cc6?w=600&auto=format&fit=crop&q=60"
               alt="Radiant Skin"
               style="width:100%; height:480px; object-fit:cover; object-position:center top; display:block; border-radius:24px;" />
-            <!-- Floating badge on image -->
-
           </div>
         </div>
         <!-- RIGHT: Text -->
@@ -1417,6 +1457,7 @@
         </div>
       </div>
     </div>
+    
   </section>
 
   <!-- FOOTER -->
@@ -1658,6 +1699,65 @@
       showCard(0);
       setInterval(nextCard, 2000);
     }
+
+    // ---- HERO IMAGE SLIDER ----
+    let heroCurrentSlide = 0;
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    
+    function showHeroSlide(index) {
+      heroSlides.forEach((slide, i) => {
+        slide.style.opacity = i === index ? '1' : '0';
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function heroSliderNext() {
+      heroCurrentSlide = (heroCurrentSlide + 1) % heroSlides.length;
+      showHeroSlide(heroCurrentSlide);
+    }
+
+    function heroSliderPrev() {
+      heroCurrentSlide = (heroCurrentSlide - 1 + heroSlides.length) % heroSlides.length;
+      showHeroSlide(heroCurrentSlide);
+    }
+
+    // Auto-change every 3 seconds
+    showHeroSlide(0);
+    setInterval(heroSliderNext, 3000);
+
+    // Make functions global
+    window.heroSliderNext = heroSliderNext;
+    window.heroSliderPrev = heroSliderPrev;
+
+    // ---- MOBILE HERO IMAGE SLIDER ----
+    let mobileHeroCurrentSlide = 0;
+    const mobileHeroSlides = document.querySelectorAll('.mobile-hero-slide');
+    
+    function showMobileHeroSlide(index) {
+      mobileHeroSlides.forEach((slide, i) => {
+        slide.style.opacity = i === index ? '1' : '0';
+      });
+    }
+
+    function mobileHeroSliderNext() {
+      mobileHeroCurrentSlide = (mobileHeroCurrentSlide + 1) % mobileHeroSlides.length;
+      showMobileHeroSlide(mobileHeroCurrentSlide);
+    }
+
+    function mobileHeroSliderPrev() {
+      mobileHeroCurrentSlide = (mobileHeroCurrentSlide - 1 + mobileHeroSlides.length) % mobileHeroSlides.length;
+      showMobileHeroSlide(mobileHeroCurrentSlide);
+    }
+
+    // Auto-change every 3 seconds
+    if (mobileHeroSlides.length > 0) {
+      showMobileHeroSlide(0);
+      setInterval(mobileHeroSliderNext, 3000);
+    }
+
+    // Make functions global
+    window.mobileHeroSliderNext = mobileHeroSliderNext;
+    window.mobileHeroSliderPrev = mobileHeroSliderPrev;
   </script>
 </body>
 
