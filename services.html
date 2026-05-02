@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--
+  LUMIÈRE SKIN CLINIC - SERVICES PAGE
+  
+  RECENT UPDATES:
+  ✅ Mobile Responsive - Fully optimized
+  ✅ Topbar Spacing - Fixed (16px gap, 8px mobile)
+  ✅ Service Cards - Stack vertically on mobile
+  ✅ Service Images - Full-width on mobile (200px height)
+  ✅ Category Sections - Clean dividers
+  ✅ Price & Time Badges - Responsive sizing
+  ✅ CTA Buttons - Full-width on mobile
+  ✅ Touch Targets - Mobile-friendly
+  
+  MOBILE LAYOUT:
+  - Service cards: Vertical stack
+  - Images: Full-width, 200px height
+  - Buttons: Full-width, centered
+  - Better spacing and padding
+-->
+
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -29,6 +50,15 @@
     html { overflow-x: hidden; }
     *, *::before, *::after { box-sizing: border-box; }
     h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    
+    /* NAVBAR */
+    #navbar {
+      position: -webkit-sticky !important; /* Safari */
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+    }
+    
     .navbar-scrolled { box-shadow: 0 4px 30px rgba(80,40,20,0.1); }
     .nav-link { position: relative; padding: 6px 0 !important; margin: 0 16px; background: transparent !important; border-radius: 0 !important; }
     .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #b8935a; transition: width 0.3s; border-radius: 2px; }
@@ -221,7 +251,7 @@
   <!-- NAV -->
   <nav id="navbar" class="sticky top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-amber-100 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center">
           <i class="fa-solid fa-spa text-white text-sm"></i>
         </div>
