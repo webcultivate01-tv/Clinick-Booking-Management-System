@@ -71,15 +71,23 @@
     .topbar a { color: #e8d5b7; text-decoration: none; transition: color 0.2s; }
     .topbar a:hover { color: #fff; }
     .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .topbar-left { display: flex; align-items: center; gap: 20px; }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px){ .topbar-inner { justify-content: center; } .topbar-right { display: none; } }
 
     @media(max-width:640px) {
+      .topbar-inner {
+        padding: 0 16px;
+      }
+      
       .topbar-left {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 12px;
+        gap: 8px 16px;
+      }
+
+      .topbar-left a {
+        font-size: 0.75rem;
       }
 
       .topbar-left .hidden {
@@ -117,36 +125,110 @@
     .info-icon-box { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
     /* ---- MOBILE RESPONSIVE ---- */
+    @media (max-width: 1024px) {
+      section {
+        padding: 60px 24px !important;
+      }
+      
+      .grid.lg\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .contact-main-grid {
+        grid-template-columns: 1fr !important;
+        gap: 48px !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .grid.md\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .grid.md\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .max-w-6xl {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+    
     @media (max-width: 640px) {
       /* Hero */
-      .hero-title { font-size: 2.4rem !important; }
+      .hero-title { 
+        font-size: 2.2rem !important; 
+        line-height: 1.2 !important;
+      }
+      
+      h2 {
+        font-size: 1.6rem !important;
+      }
+      
       /* Quick cards */
       .quick-cards-grid { grid-template-columns: 1fr !important; }
+      
       /* Contact main grid */
       .contact-main-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+      
       /* Form two-col grid → single col */
       .form-2col { grid-template-columns: 1fr !important; }
+      
       /* FAQ */
       .faq-btn { font-size: 0.88rem; padding: 14px 16px; }
       .faq-answer { padding: 0 16px; }
       .faq-answer.open { padding-bottom: 14px; padding-top: 10px; }
+      
       /* CTA */
-      .cta-section h2 { font-size: 2rem !important; }
+      .cta-section h2 { font-size: 1.8rem !important; }
+      
       /* Footer grid */
       .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
-      /* Topbar */
-      .topbar-inner { flex-direction: column; gap: 4px; text-align: center; }
+      
       /* Section padding */
-      .py-24 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+      .py-24 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
       .py-16 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+      .py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+      
       /* Prevent horizontal overflow from slide animations */
       .reveal-left, .reveal-right { transform: translateY(28px) !important; }
       .reveal-left.revealed, .reveal-right.revealed { transform: translateY(0) !important; }
-      section { overflow-x: hidden; }
+      section { overflow-x: hidden; padding: 50px 20px !important; }
+      
+      /* Better buttons */
+      .btn-primary,
+      .btn-outline {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        font-size: 0.88rem;
+      }
+      
+      /* Stack social buttons */
+      .flex.gap-3 {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .flex.gap-3 a {
+        width: 100%;
+        justify-content: center;
+      }
     }
+    
     @media (max-width: 480px) {
       .footer-grid { grid-template-columns: 1fr !important; }
-      .hero-title { font-size: 2rem !important; }
+      .hero-title { font-size: 1.8rem !important; }
+      
+      h2 {
+        font-size: 1.4rem !important;
+      }
+      
+      .info-icon-box {
+        width: 40px;
+        height: 40px;
+      }
     }
 
     /* Success Message */
@@ -225,13 +307,23 @@
   </div>
 
   <!-- PAGE HERO -->
-  <section class="relative pt-16 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, rgba(250,247,242,0.92) 0%, rgba(245,237,230,0.92) 100%), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80'); background-size: cover; background-position: center; background-blend-mode: overlay;">
-    <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
-      <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> Get in Touch</span>
-      <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight hero-title">
+  <section class="relative overflow-hidden" style="min-height: 360px; display: flex; align-items: center;">
+    <!-- Background image with blur -->
+    <div style="position:absolute;inset:0;z-index:0;">
+      <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1400&q=85" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:blur(3px) brightness(0.4);transform:scale(1.05);"/>
+    </div>
+    <!-- Gradient overlay -->
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg, rgba(92,61,46,0.75) 0%, rgba(44,36,32,0.65) 50%, rgba(184,147,90,0.3) 100%);"></div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal" style="padding-top:100px;padding-bottom:60px;width:100%;">
+      <span style="display:inline-block;font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#e8d5b7;background:rgba(184,147,90,0.25);border:1px solid rgba(184,147,90,0.4);padding:6px 18px;border-radius:100px;margin-bottom:14px;">
+        <i class="fa-solid fa-circle-dot mr-1"></i> Get in Touch
+      </span>
+      <h1 class="font-heading text-5xl lg:text-6xl font-bold leading-tight hero-title mt-3 mb-5" style="color:#fff;">
         Contact <span class="text-gold font-heading">Us</span>
       </h1>
-      <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto" style="text-shadow: 0 2px 4px rgba(255,255,255,0.9);">We're here to help you begin your skin transformation journey. Reach out to book an appointment, ask questions, or simply learn more about our treatments.</p>
+      <p style="color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.75;max-width:560px;margin:0 auto;">We're here to help you begin your skin transformation journey. Reach out to book an appointment, ask questions, or simply learn more about our treatments.</p>
     </div>
   </section>
 

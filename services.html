@@ -74,17 +74,22 @@
     .topbar a { color: #e8d5b7; text-decoration: none; transition: color 0.2s; }
     .topbar a:hover { color: #fff; }
     .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .topbar-left { display: flex; align-items: center; gap: 20px; }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
     .topbar-right { display: flex; align-items: center; gap: 20px; }
     @media(max-width:640px) {
       .topbar-inner {
         justify-content: center;
+        padding: 0 16px;
       }
 
       .topbar-left {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 12px;
+        gap: 8px 16px;
+      }
+
+      .topbar-left a {
+        font-size: 0.75rem;
       }
 
       .topbar-left .hidden {
@@ -116,18 +121,84 @@
     .why-img-card .why-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(44,36,32,0.65) 100%); }
     .why-img-card .why-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; }
     /* Mobile responsive */
-    @media (max-width: 768px) {
-      .srv-detail { flex-direction: column !important; }
-      .srv-img-sm { width: 100% !important; height: 160px !important; border-radius: 12px !important; }
-      .btn-sm { align-self: flex-start; }
+    @media (max-width: 1024px) {
+      section {
+        padding: 60px 24px !important;
+      }
+      
+      .grid.lg\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
     }
-    @media (max-width: 640px) {
-      section { overflow-x: hidden; }
+    
+    @media (max-width: 768px) {
+      .srv-detail { 
+        flex-direction: column !important; 
+        gap: 16px !important;
+      }
+      .srv-img-sm { width: 100% !important; height: 200px !important; border-radius: 12px !important; }
+      .btn-sm { 
+        align-self: flex-start; 
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      
       .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; }
       .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+      
+      .max-w-6xl,
+      .max-w-5xl {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      section { overflow-x: hidden; padding: 50px 20px !important; }
+      .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; }
+      .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+      
       /* Prevent horizontal overflow from slide animations */
       .reveal-left, .reveal-right { transform: translateY(28px) !important; }
       .reveal-left.revealed, .reveal-right.revealed { transform: translateY(0) !important; }
+      
+      /* Better hero text */
+      h1 {
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+      }
+      
+      h2 {
+        font-size: 1.6rem !important;
+      }
+      
+      /* Service cards */
+      .srv-detail {
+        padding: 20px !important;
+      }
+      
+      .srv-img-sm {
+        height: 180px !important;
+      }
+      
+      /* Better button sizing */
+      .btn-primary,
+      .btn-outline,
+      .btn-sm {
+        font-size: 0.88rem;
+        padding: 12px 24px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem !important;
+      }
+      
+      .srv-img-sm {
+        height: 160px !important;
+      }
     }
   </style>
 </head>
@@ -196,21 +267,28 @@
   </div>
 
   <!-- PAGE HERO -->
-  <section class="relative pt-16 pb-16 text-center overflow-hidden" style="background: linear-gradient(135deg, rgba(250,247,242,0.92) 0%, rgba(245,237,230,0.92) 60%, rgba(237,224,214,0.92) 100%), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80'); background-size: cover; background-position: center; background-blend-mode: overlay;">
-    <div class="max-w-3xl mx-auto px-6 relative z-10 reveal">
-      <span class="section-tag"><i class="fa-solid fa-circle-dot mr-1"></i> What We Offer</span>
-      <h1 class="font-heading text-5xl lg:text-6xl font-bold text-charcoal mt-3 mb-5 leading-tight">
-        Our <span class="text-gold font-heading">Services</span>
+  <section class="relative overflow-hidden" style="min-height: 380px; display: flex; align-items: center;">
+    <!-- Background image -->
+    <div style="position:absolute;inset:0;z-index:0;">
+      <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1400&q=85" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;filter:blur(3px) brightness(0.45);transform:scale(1.05);"/>
+    </div>
+    <!-- Gradient overlay for theme color tint -->
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg, rgba(92,61,46,0.72) 0%, rgba(44,36,32,0.65) 50%, rgba(184,147,90,0.35) 100%);"></div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal" style="padding-top:100px;padding-bottom:60px;width:100%;">
+      <span style="display:inline-block;font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#e8d5b7;background:rgba(184,147,90,0.25);border:1px solid rgba(184,147,90,0.4);padding:6px 18px;border-radius:100px;margin-bottom:14px;">
+        <i class="fa-solid fa-circle-dot mr-1"></i> What We Offer
+      </span>
+      <h1 class="font-heading text-5xl lg:text-6xl font-bold leading-tight mt-3 mb-5" style="color:#fff;">
+        Our <span class="text-gold font-heading">Skin</span>
       </h1>
-      <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto mb-8" style="text-shadow: 0 2px 4px rgba(255,255,255,0.9);">Explore our complete range of advanced, clinically-proven skin treatments — each designed to address your unique concerns with precision, safety, and real results.</p>
+      <p style="color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.75;max-width:560px;margin:0 auto 2rem;">Explore our complete range of advanced, clinically-proven skin treatments — each designed to address your unique concerns with precision, safety, and real results.</p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a href="contact.html" class="btn-primary"><i class="fa-regular fa-calendar-check mr-2"></i>Book Free Consultation</a>
-        <a href="#face-treatments" class="btn-outline">Explore Treatments</a>
+        <a href="#face-treatments" style="display:inline-block;border:2px solid rgba(255,255,255,0.6);color:#fff;padding:12px 30px;border-radius:100px;font-size:0.92rem;font-weight:500;transition:all 0.25s;text-decoration:none;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">Explore Treatments</a>
       </div>
     </div>
-    <!-- Decorative circles -->
-    <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-amber-100/30 pointer-events-none"></div>
-    <div class="absolute -bottom-10 -left-20 w-48 h-48 rounded-full bg-rose-100/30 pointer-events-none"></div>
   </section>
 
   <!-- SERVICES LIST -->
