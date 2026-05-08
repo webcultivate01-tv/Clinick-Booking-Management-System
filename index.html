@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--
-  LUMIÈRE SKIN CLINIC - HOME PAGE
-  
-  RECENT UPDATES:
-  ✅ Mobile Responsive - Fully optimized for all screen sizes
-  ✅ Hero Section - Reduced padding, closer to navbar (60px desktop, 20px mobile)
-  ✅ Topbar Spacing - Fixed spacing between phone/email (16px gap, 8px mobile)
-  ✅ Slider Buttons - Professional light design with glass-morphism
-  ✅ Floating Badges - Half on image, half outside with gradient icons
-  ✅ Core Values Slider - Horizontal scroll on mobile (≤768px)
-  ✅ Section Tag - Moved up by 8px for better spacing
-  ✅ Touch Targets - Minimum 44px height for mobile
-  ✅ No Horizontal Overflow - All sections properly contained
-  
-  MOBILE BREAKPOINTS:
-  - ≤1024px: Single column hero, reduced padding
-  - ≤768px: Sliders active, better spacing
-  - ≤640px: Full mobile optimization
-  - ≤480px: Extra compact for small screens
--->
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1063,11 +1042,143 @@
         padding-right: 16px !important;
       }
     }
+  
+    /* ===== STICKY HEADER FIX ===== */
+    /* Wrap topbar + navbar in sticky container */
+    .sticky-header {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      width: 100%;
+    }
+    
+    /* Override any individual sticky on navbar */
+    #navbar {
+      position: relative !important;
+      top: auto !important;
+      z-index: auto !important;
+    }
+
+    /* ===== MOBILE DRAWER LOGO FIX ===== */
+    /* Drawer logo "Lumiere Skin" was appearing in middle on hover */
+    .drawer-header {
+      position: relative;
+      z-index: 1001;
+    }
+    .mobile-drawer {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      z-index: 10000 !important;
+    }
+    .drawer-overlay {
+      z-index: 9998 !important;
+    }
+
+    /* ===== MOBILE RESPONSIVE FIXES ===== */
+    @media (max-width: 768px) {
+      /* Topbar hide on very small screens */
+      .topbar {
+        font-size: 0.72rem;
+        padding: 6px 0;
+      }
+      
+      /* Navbar height reduce on mobile */
+      .max-w-6xl.mx-auto.px-6.h-20 {
+        height: 64px !important;
+      }
+      
+      /* Fix hero section top spacing */
+      section:first-of-type {
+        padding-top: 40px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        display: none; /* Hide topbar on very small screens for more space */
+      }
+    }
+    /* ===== END FIXES ===== */
+
+  
+    /* ===== ADDITIONAL MOBILE FIXES ===== */
+
+    /* Ensure navbar has solid white background */
+    #navbar {
+      background: rgba(255, 255, 255, 0.98) !important;
+    }
+
+    /* Mobile drawer must be above everything */
+    .mobile-drawer {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+    }
+    
+    .drawer-overlay {
+      position: fixed !important;
+      z-index: 99998 !important;
+    }
+
+    /* Fix drawer header - no transform issues */
+    .drawer-header {
+      background: #fff;
+      position: sticky;
+      top: 0;
+    }
+
+    /* Mobile: hide topbar right on small screens */
+    @media (max-width: 640px) {
+      .topbar-right {
+        display: none !important;
+      }
+      .topbar {
+        text-align: center;
+      }
+    }
+
+    /* Improve mobile overall spacing */
+    @media (max-width: 768px) {
+      /* Navbar height on mobile */
+      #navbar .h-20 {
+        height: 60px;
+      }
+      
+      /* Better hero padding on mobile */
+      .hero-section {
+        padding: 0 16px !important;
+      }
+      
+      /* Fix grid layouts on mobile */
+      .grid {
+        gap: 16px;
+      }
+    }
+
+    /* Extra small screens */
+    @media (max-width: 375px) {
+      .topbar {
+        font-size: 0.68rem;
+        padding: 5px 0;
+      }
+      
+      #navbar .font-heading {
+        font-size: 1.2rem !important;
+      }
+    }
+    /* ===== END ADDITIONAL FIXES ===== */
+
   </style>
 </head>
 
 <body>
 
+  <div class="sticky-header">
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-inner">
@@ -1110,6 +1221,7 @@
       </button>
     </div>
   </nav>
+  </div>
 
   <!-- MOBILE DRAWER OVERLAY -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
