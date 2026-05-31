@@ -1,0 +1,635 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { @apply bg-cream text-charcoal font-body; }
+  html { overflow-x: hidden; }
+  body { overflow-x: hidden; }
+  h1, h2, h3, h4 { @apply font-heading; }
+}
+
+@layer components {
+  /* The two CTA buttons used everywhere â€” matches the original site exactly. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center bg-brown text-cream font-medium tracking-wide rounded-full transition-all duration-200;
+    padding: 14px 32px;
+    font-size: 0.92rem;
+  }
+  .btn-primary:hover {
+    @apply bg-gold -translate-y-0.5;
+    box-shadow: 0 8px 24px rgba(92, 61, 46, 0.3);
+  }
+  .btn-primary:disabled { @apply opacity-60 cursor-not-allowed translate-y-0 shadow-none; }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center border-2 border-brown text-brown font-medium tracking-wide rounded-full transition-all duration-200;
+    padding: 12px 30px;
+    font-size: 0.92rem;
+  }
+  .btn-outline:hover { @apply bg-brown text-cream -translate-y-0.5; }
+
+  /* "Advanced Dermatology"-style chip above section headings. */
+  .section-tag {
+    @apply inline-block text-xs font-semibold tracking-[0.14em] uppercase text-gold bg-gold-light;
+    padding: 6px 18px;
+    border-radius: 100px;
+  }
+
+  /* Subtle reveal-on-mount animation used by hero-ish sections. */
+  .reveal-up { @apply opacity-0 translate-y-8 transition-all duration-700; }
+  .reveal-up.in { @apply opacity-100 translate-y-0; }
+
+  .input-base {
+    @apply w-full rounded-xl border border-gold-light bg-white px-4 py-3 text-sm text-charcoal placeholder:text-muted/70
+           focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition;
+  }
+
+  .label-base { @apply block text-xs font-semibold tracking-wide uppercase text-muted mb-2; }
+
+  /* Status badges used in dashboards + booking confirmation page. */
+  .badge { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold; }
+  .badge-green  { @apply bg-emerald-50 text-emerald-700; }
+  .badge-yellow { @apply bg-amber-50 text-amber-700; }
+  .badge-red    { @apply bg-rose-50 text-rose-700; }
+  .badge-blue   { @apply bg-sky-50 text-sky-700; }
+  .badge-grey   { @apply bg-slate-100 text-slate-600; }
+}
+
+/* Hide scrollbar but keep scrolling (used by some horizontal lists). */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================== */
+/*  Site-specific styles ported from the original index.html       */
+/* ============================================================== */
+
+/* ---------- NAVBAR ---------- */
+.navbar-scrolled { box-shadow: 0 4px 30px rgba(80, 40, 20, 0.1); }
+
+.nav-link {
+  position: relative;
+  padding: 6px 0;
+  margin: 0 16px;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #b8935a;
+  transition: width 0.3s;
+  border-radius: 2px;
+}
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link:hover, .nav-link.active { color: #5c3d2e; }
+
+/* ---------- HAMBURGER ---------- */
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #5c3d2e;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.hamburger.active .hamburger-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active .hamburger-bar:nth-child(2) { opacity: 0; }
+.hamburger.active .hamburger-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- MOBILE DRAWER ---------- */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 8, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 60;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 70;
+  transition: right 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 28px rgba(80, 40, 20, 0.12);
+}
+.mobile-drawer.open { right: 0; }
+.drawer-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(184, 147, 90, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.drawer-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(184, 147, 90, 0.1);
+  color: #5c3d2e;
+  border: none;
+  cursor: pointer;
+}
+.drawer-nav {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.drawer-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #5c3d2e;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.drawer-nav a:hover, .drawer-nav a.active {
+  background: rgba(184, 147, 90, 0.12);
+  color: #b8935a;
+}
+.drawer-footer { padding: 14px 18px; border-top: 1px solid rgba(184, 147, 90, 0.15); }
+
+/* ---------- MARQUEE ---------- */
+.marquee-wrap {
+  background: #5c3d2e;
+  overflow: hidden;
+  padding: 14px 0;
+}
+.marquee-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- CARDS ---------- */
+.card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(80, 40, 20, 0.14); }
+
+/* ---------- REVEAL ON SCROLL (left / right / scale variants) ---------- */
+.reveal       { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-scale { opacity: 0; transform: scale(0.95);       transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.revealed, .reveal-left.revealed, .reveal-right.revealed, .reveal-scale.revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* ---------- WHY CHOOSE US CARD ---------- */
+.why-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(232, 213, 183, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.why-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(80, 40, 20, 0.12); }
+.why-card-img-wrap { overflow: hidden; height: 160px; }
+.why-card-img      { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.why-card:hover .why-card-img { transform: scale(1.08); }
+.why-card-body     { padding: 18px 18px 22px; }
+
+/* ---------- WHATSAPP FAB ---------- */
+.whatsapp-btn {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  text-decoration: none;
+  transition: transform 0.25s;
+}
+.whatsapp-btn:hover { transform: scale(1.08); }
+
+/* ---------- STATUS BADGES (by enum value, used across dashboard tables) ----
+   Spec mapping: pending→amber, confirmed→blue, completed→emerald,
+   cancelled→red, no_show→slate, rescheduled→amber, new→blue.            */
+.badge-paid       { background:#ecfdf5; color:#047857; ring-color:#a7f3d0; }
+.badge-pending    { background:#fffbeb; color:#b45309; }
+.badge-failed     { background:#fef2f2; color:#b91c1c; }
+.badge-refunded   { background:#f1f5f9; color:#475569; }
+.badge-confirmed  { background:#eff6ff; color:#1d4ed8; }
+.badge-completed  { background:#ecfdf5; color:#047857; }
+.badge-cancelled  { background:#fef2f2; color:#b91c1c; }
+.badge-no_show    { background:#f1f5f9; color:#475569; }
+.badge-rescheduled{ background:#fffbeb; color:#b45309; }
+.badge-new        { background:#eff6ff; color:#1d4ed8; }
+.badge-contacted  { background:#fffbeb; color:#b45309; }
+.badge-closed     { background:#f1f5f9; color:#475569; }
+.badge-approved   { background:#ecfdf5; color:#047857; }
+.badge-rejected   { background:#fef2f2; color:#b91c1c; }
+.badge-online     { background:#eff6ff; color:#1d4ed8; }
+.badge-offline    { background:#eef2ff; color:#4338ca; }
+.badge-cash       { background:#eef2ff; color:#4338ca; }
+
+/* ============================================================== */
+/*  ADMIN DASHBOARD — Enterprise spec (slate + blue-600)          */
+/*  Neutrals carry the layout; blue only for active/primary/link. */
+/*  These classes back the 10 legacy dashboard pages that still   */
+/*  use .dash, .dbtn, .stat selectors, restyled to the spec.       */
+/* ============================================================== */
+
+/* Body wrapper — system sans, slate body text. */
+.dash-body {
+  background: #f7f8fa;
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #334155;
+}
+
+/* Shell — sidebar offset, collapsible via the is-collapsed modifier. */
+.dash-shell { padding-left: 16rem; transition: padding-left 0.2s ease; }
+.dash-shell.is-collapsed { padding-left: 4.5rem; }
+
+/* Card — bordered, no shadow (spec: "avoid shadows; use borders"). */
+.dash-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+}
+
+/* In-card toolbar header. */
+.dash-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.dash-card-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: #0f172a;
+  letter-spacing: -0.005em;
+}
+.dash-card-sub {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+/* Recharts polish. */
+.recharts-wrapper:focus,
+.recharts-surface:focus { outline: none; }
+.recharts-default-tooltip {
+  border-radius: 8px !important;
+  border-color: #e5e7eb !important;
+  font-size: 12px !important;
+}
+.recharts-legend-item-text { color: #64748b !important; font-size: 12px; }
+
+/* Live pulse dot used in the topbar. */
+.dash-live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  animation: livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18); }
+  50%      { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.06); }
+}
+
+/* ---- Legacy stat tile classes (used directly by some pages) ---- */
+.stat-tile {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 20px;
+  position: relative;
+}
+.stat-tile .stat-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.stat-tile .stat-num {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.2;
+  margin-top: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-tile .stat-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.stat-tile .stat-trend {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #ecfdf5;
+  color: #047857;
+}
+.stat-tile .stat-trend.is-amber { background: #fffbeb; color: #b45309; }
+.stat-tile .stat-trend.is-rose  { background: #fef2f2; color: #b91c1c; }
+
+.stat-strip {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.stat-strip .icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Page header (legacy). */
+.dash-page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.dash-page-sub {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Tables. */
+.dash-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dash-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  padding: 12px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dash-table td {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+}
+.dash-table tbody tr:hover { background: #f8fafc; }
+
+/* Buttons. */
+.btn-indigo,
+.dbtn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #2563eb; color: #fff;
+  padding: 8px 16px; border-radius: 8px;
+  font-weight: 500; font-size: 13px;
+  border: 0; cursor: pointer;
+  transition: background-color 0.12s;
+}
+.btn-indigo:hover,
+.dbtn-primary:hover { background: #1d4ed8; }
+.btn-indigo:disabled,
+.dbtn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-soft,
+.dbtn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: #475569;
+  padding: 8px 12px; border-radius: 8px;
+  font-weight: 500; font-size: 13px;
+  border: 1px solid #e5e7eb; cursor: pointer;
+  transition: background-color 0.12s;
+}
+.btn-soft:hover,
+.dbtn-secondary:hover { background: #f8fafc; }
+
+.queue-badge {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: #eff6ff; color: #2563eb;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid #dbeafe;
+}
+
+.dbtn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 12px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  border: 1px solid transparent; cursor: pointer;
+  transition: background-color 0.12s, color 0.12s, border-color 0.12s;
+  line-height: 1.2; white-space: nowrap;
+}
+.dbtn-danger {
+  background: #fff; color: #dc2626;
+  border-color: #fecaca;
+}
+.dbtn-danger:hover { background: #fef2f2; }
+.dbtn-ghost {
+  background: transparent; color: #64748b;
+  border-color: transparent;
+}
+.dbtn-ghost:hover { background: #f1f5f9; color: #0f172a; }
+.dbtn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Empty state. */
+.dash-empty {
+  text-align: center;
+  padding: 64px 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+.dash-empty i,
+.dash-empty svg { display: inline-block; font-size: 1.25rem; color: #cbd5e1; margin-bottom: 6px; }
+
+/* Inputs. */
+.dash-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #0f172a;
+  font-size: 13px;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.dash-input:focus {
+  outline: none;
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+.dash-input::placeholder { color: #94a3b8; }
+
+.dash-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+/* Filter pill. */
+.dash-filter-pill {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.dash-filter-pill:hover { border-color: #93c5fd; color: #1d4ed8; }
+.dash-filter-pill.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+/* Sidebar section label (legacy). */
+.dash-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  padding: 14px 16px 6px;
+}
+
+/* ---------- COMMAND PALETTE (Ctrl+K) backing ---------- */
+.dash-kbar-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 80;
+  display: flex;
+  justify-content: center;
+  padding-top: 12vh;
+}
+.dash-kbar {
+  width: min(620px, 92vw);
+  height: fit-content;
+  max-height: 60vh;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- SKELETON shimmer ---------- */
+.skel {
+  position: relative;
+  overflow: hidden;
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+.skel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  transform: translateX(-100%);
+  animation: skelShimmer 1.4s ease-in-out infinite;
+}
+@keyframes skelShimmer { 100% { transform: translateX(100%); } }
+.skel-text { height: 12px; border-radius: 4px; }
+.skel-tile { height: 92px; border-radius: 0.75rem; }
+.skel-row  { height: 44px; border-radius: 6px; }
+
+/* ============================================================== */
+/*  PREMIUM SCROLLBAR  (.dash-scroll)                              */
+/*  Thin, almost-invisible idle, gently visible on hover.          */
+/*  Used by the sidebar nav and any internal scrollers we want to  */
+/*  feel native to a high-end SaaS admin.                          */
+/* ============================================================== */
+.dash-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.18s ease;
+}
+.dash-scroll:hover,
+.dash-scroll:focus-within { scrollbar-color: #cbd5e1 transparent; }
+
+.dash-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.dash-scroll::-webkit-scrollbar-track { background: transparent; }
+.dash-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  transition: background-color 0.18s ease;
+}
+.dash-scroll:hover::-webkit-scrollbar-thumb,
+.dash-scroll:focus-within::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+}
+.dash-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; /* slate-400 */ }
+.dash-scroll::-webkit-scrollbar-thumb:active { background: #64748b; /* slate-500 */ }
+/* Hide the up/down arrow buttons on platforms that render them. */
+.dash-scroll::-webkit-scrollbar-button { display: none; }
+
+/* Drawer overlay used by the patient details drawer (right slide-in). */
+.dash-drawer-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 70;
+}
+.dash-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(640px, 96vw);
+  background: #fff;
+  border-left: 1px solid #e5e7eb;
+  z-index: 71;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
